@@ -24,7 +24,7 @@ class Hosts extends BaseEnum
         return self::$items = collect([
             (new HostsItem)
                 ->setId(self::LOCALHOST)
-                ->setHost('http://nginx/api/consumer')
+                ->setHost('http://nginx/' . config('smskin.service-bus.host.route_prefix') . '/consumer')
         ]);
     }
 }
