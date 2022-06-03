@@ -22,7 +22,7 @@ class RouteServiceProvider extends ServiceProvider
 
     private function mapRoutes()
     {
-        if (!config('service-bus.host.active')) {
+        if (!config('smskin.service-bus.host.active')) {
             return;
         }
 
@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
         ])
             ->name('vendors.smskin.service-bus.')
             ->namespace('SMSkin\ServiceBus\Http\Controllers')
-            ->prefix(config('service-bus.host.route_prefix'))
+            ->prefix(config('smskin.service-bus.host.route_prefix'))
             ->group(__DIR__ . '/../../routes/routes.php');
     }
 }

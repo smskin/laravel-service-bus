@@ -14,36 +14,36 @@ trait ClassFromConfig
 {
     public static function getConnectionsEnum(): Connections
     {
-        return app(config('esb.enums.connections'));
+        return app(config('smskin.service-bus.enums.connections'));
     }
 
     public static function getExchangesEnum(): Exchanges
     {
-        return app(config('esb.enums.exchanges'));
+        return app(config('smskin.service-bus.enums.exchanges'));
     }
 
     public static function getQueuesEnum(): Queues
     {
-        return app(config('esb.enums.queues'));
+        return app(config('smskin.service-bus.enums.queues'));
     }
 
     public static function getConsumersEnum(): Consumers
     {
-        return app(config('esb.enums.consumers'));
+        return app(config('smskin.service-bus.enums.consumers'));
     }
 
     public static function getPublishersEnum(): Publishers
     {
-        return app(config('esb.enums.publishers'));
+        return app(config('smskin.service-bus.enums.publishers'));
     }
 
     public static function getPackagesEnum(): Packages
     {
-        return app(config('esb.enums.packages'));
+        return app(config('smskin.service-bus.enums.packages'));
     }
 
     public static function getHostsEnum(): Hosts
     {
-        return app(config('esb.enums.hosts'));
+        return app(config('smskin.service-bus.enums.hosts'));
     }
 }

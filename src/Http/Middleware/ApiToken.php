@@ -18,7 +18,7 @@ class ApiToken
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        $token = config('esb.host.api_token');
+        $token = config('smskin.service-bus.host.api_token');
         if (!$token) {
             throw new ApiTokenNotDefined();
         }
