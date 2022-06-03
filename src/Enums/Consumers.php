@@ -11,7 +11,7 @@ class Consumers extends BaseEnum
 {
     use ClassFromConfig;
 
-    public const TEST = 'TEST_ASYNC';
+    public const TEST = 'TEST';
 
     private static ?Collection $items = null;
 
