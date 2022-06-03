@@ -24,7 +24,7 @@ class SetupCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'modules:esb:setup {--force}';
+    protected $signature = 'service-bus:setup {--force}';
 
     /**
      * The console command description.

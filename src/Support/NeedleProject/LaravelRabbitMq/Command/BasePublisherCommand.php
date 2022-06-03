@@ -19,7 +19,7 @@ class BasePublisherCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'modules:esb:publish {publisher} {message} {routingKey?}';
+    protected $signature = 'service-bus:publish {publisher} {message} {routingKey?}';
 
     /**
      * The console command description.

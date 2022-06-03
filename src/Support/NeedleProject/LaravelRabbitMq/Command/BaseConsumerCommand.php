@@ -18,7 +18,7 @@ class BaseConsumerCommand extends \NeedleProject\LaravelRabbitMq\Command\BaseCon
      *
      * @var string
      */
-    protected $signature = 'modules:esb:consume {consumer} {--time=60} {--messages=100} {--memory=64}';
+    protected $signature = 'service-bus:consume {consumer} {--time=60} {--messages=100} {--memory=64}';
 
     /**
      * @param string $consumerAliasName

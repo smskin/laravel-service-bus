@@ -20,7 +20,7 @@ class ListEntitiesCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'modules:esb:list';
+    protected $signature = 'service-bus:list';
 
     /**
      * The console command description.

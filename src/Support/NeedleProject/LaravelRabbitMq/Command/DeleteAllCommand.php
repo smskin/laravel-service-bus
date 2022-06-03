@@ -20,7 +20,7 @@ class DeleteAllCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'modules:esb:delete-all';
+    protected $signature = 'service-bus:delete-all';
 
     /**
      * The console command description.
