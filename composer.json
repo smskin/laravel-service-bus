@@ -1,0 +1,39 @@
+{
+    "name": "smskin/laravel-service-bus",
+    "description": "Service bus for laravel",
+    "keywords": [
+        "laravel",
+        "service-bus"
+    ],
+    "authors": [
+        {
+            "name": "SMSkin",
+            "email": "serg@msoinvest.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/smskin/laravel-service-bus",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^8 || ^9",
+        "guzzlehttp/guzzle": "^7.0",
+        "smskin/laravel-support": "^1.0",
+        "needle-project/laravel-rabbitmq": "dev-add-php8",
+        "ext-sockets": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SMSkin\\ServiceBus\\Providers\\ServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SMSkin\\ServiceBus\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
