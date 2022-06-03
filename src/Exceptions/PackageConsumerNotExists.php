@@ -2,7 +2,7 @@
 
 namespace SMSkin\ServiceBus\Exceptions;
 
-class PackageConsumerNotExists extends EsbException
+class PackageConsumerNotExists extends ServiceBusException
 {
 
 }
