@@ -36,14 +36,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $configPath = __DIR__ . '/../../config/service-bus.php';
         $this->publishes([
-            $configPath => app()->configPath('smskin/service-bus.php'),
+            $configPath => app()->configPath('service-bus.php'),
         ], 'service-bus');
     }
 
     private function registerConfig()
     {
         $configPath = __DIR__ . '/../../config/service-bus.php';
-        $this->mergeConfigFrom($configPath, 'smskin.service-bus');
+        $this->mergeConfigFrom($configPath, 'service-bus');
     }
 
     private function registerMigrations()

@@ -60,7 +60,7 @@ class CSyncPublish extends BaseController
      */
     private function getApiToken(): string
     {
-        $apiToken = config('smskin.service-bus.connections.sync')[$this->request->host]['api_token'];
+        $apiToken = config('service-bus.connections.sync')[$this->request->host]['api_token'];
         if (!$apiToken) {
             throw new ApiTokenNotDefined();
         }

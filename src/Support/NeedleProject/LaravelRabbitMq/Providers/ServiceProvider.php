@@ -71,7 +71,7 @@ class ServiceProvider extends LaravelServiceProvider
 
     private function getConfig(): array
     {
-        $config = config('smskin.service-bus');
+        $config = config('service-bus');
         $exchanges = self::getExchangesEnum()::items()->filter(function (ExchangeItem $item) use ($config) {
             return in_array($item->id, $config['exchanges']);
         });

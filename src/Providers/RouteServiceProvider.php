@@ -22,16 +22,16 @@ class RouteServiceProvider extends ServiceProvider
 
     private function mapRoutes()
     {
-        if (!config('smskin.service-bus.host.active')) {
+        if (!config('service-bus.host.active')) {
             return;
         }
 
         Route::middleware([
             ApiToken::class
         ])
-            ->name('vendors.smskin.service-bus.')
+            ->name('service-bus.')
             ->namespace('SMSkin\ServiceBus\Http\Controllers')
-            ->prefix(config('smskin.service-bus.host.route_prefix'))
+            ->prefix(config('service-bus.host.route_prefix'))
             ->group(__DIR__ . '/../../routes/routes.php');
     }
 }
