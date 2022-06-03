@@ -53,6 +53,6 @@ return [
     'host' => [
         'active' => true,
         'api_token' => env('SERVICE_BUS_SYNC_HOST_API_TOKEN'),
-        'route_prefix' => 'vendors/smskin/service-bus'
+        'route_prefix' => 'service-bus'
     ]
 ];
