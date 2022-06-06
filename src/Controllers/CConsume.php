@@ -9,6 +9,7 @@ use SMSkin\ServiceBus\Enums\Models\PackageItem;
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Packages\IncomingPackage;
+use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
 use SMSkin\ServiceBus\Traits\ClassFromConfig;
@@ -29,13 +30,14 @@ class CConsume extends BaseController
      */
     public function execute(): static
     {
+        $data = json_decode($this->request->json, true);
+        $tempPackage = $this->parsePackage($data);
+        $packageEnumItem = $this->getPackageEnumItemByMessageType($tempPackage->getPackage());
+        if (!$packageEnumItem) {
+            throw new PackageConsumerNotExists();
+        }
+        
         try {
-            $data = json_decode($this->request->json, true);
-            $tempPackage = $this->parsePackage($data);
-            $packageEnumItem = $this->getPackageEnumItemByMessageType($tempPackage->getPackage());
-            if (!$packageEnumItem) {
-                throw new PackageConsumerNotExists();
-            }
             $package = $this->getPackageContext($packageEnumItem)->fromArray($data);
             $processor = $this->getProcessorContext($packageEnumItem, $package);
             $this->result = $processor->execute();
@@ -50,9 +52,9 @@ class CConsume extends BaseController
     }
 
     /**
-     * @return BasePackage|null
+     * @return BaseMessage|null
      */
-    public function getResult(): ?BasePackage
+    public function getResult(): ?BaseMessage
     {
         return parent::getResult();
     }

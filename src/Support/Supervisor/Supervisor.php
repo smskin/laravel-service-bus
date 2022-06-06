@@ -94,6 +94,7 @@ class Supervisor
             });
         });
 
+        /** @noinspection PhpUndefinedMethodInspection */
         while ($this->processPools->map->runningProcesses()->collapse()->count()) {
             sleep(1);
         }

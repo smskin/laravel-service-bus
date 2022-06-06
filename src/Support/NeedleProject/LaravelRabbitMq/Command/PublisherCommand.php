@@ -28,16 +28,13 @@ class PublisherCommand extends BaseCommand
      */
     protected $description = 'Publish one message';
 
-    private ?Container $container = null;
-
     /**
      * BasePublisherCommand constructor.
      *
-     * @param Container $container
+     * @param ?Container $container
      */
-    public function __construct(Container $container)
+    public function __construct(private ?Container $container)
     {
-        $this->container = $container;
         parent::__construct();
     }
 

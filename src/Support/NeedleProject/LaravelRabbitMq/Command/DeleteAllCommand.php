@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command;
 
+use Exception;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Container;
 use NeedleProject\LaravelRabbitMq\Entity\QueueEntity;
 use NeedleProject\LaravelRabbitMq\PublisherInterface;
@@ -49,7 +50,7 @@ class DeleteAllCommand extends BaseCommand
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $hasErrors = false;
         /** @var PublisherInterface $entity */
@@ -59,18 +60,18 @@ class DeleteAllCommand extends BaseCommand
                 $this->output->writeln(
                     sprintf(
                         "Deleted entity <info>%s</info> for publisher [<fg=yellow>%s</>]",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName
+                        $entity->getAliasName(),
+                        $publisherName
                     )
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $hasErrors = true;
                 $this->output->error(
                     sprintf(
                         "Could not delete entity %s for publisher [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $publisherName,
+                        $e->getMessage()
                     )
                 );
             }
@@ -83,18 +84,18 @@ class DeleteAllCommand extends BaseCommand
                 $this->output->writeln(
                     sprintf(
                         "Deleted entity <info>%s</info> for consumer [<fg=yellow>%s</>]",
-                        (string)$entity->getAliasName(),
-                        (string)$consumerAliasName
+                        $entity->getAliasName(),
+                        $consumerAliasName
                     )
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $hasErrors = true;
                 $this->output->error(
                     sprintf(
                         "Could not delete entity %s for consumer [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$consumerAliasName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $consumerAliasName,
+                        $e->getMessage()
                     )
                 );
             }

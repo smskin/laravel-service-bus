@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command;
 
+use Exception;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Container;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
 use NeedleProject\LaravelRabbitMq\ConsumerInterface;
@@ -52,6 +53,7 @@ class SetupCommand extends BaseCommand
      * @param string $type
      * @param string $resourceName
      * @param bool $forceRecreate
+     * @throws AMQPProtocolChannelException
      */
     private function createEntity(
         AMQPEntityInterface $entity,
@@ -64,7 +66,7 @@ class SetupCommand extends BaseCommand
                 sprintf(
                     "Deleting <info>%s</info> <fg=yellow>%s</>",
                     (string)($entity instanceof QueueEntity) ? 'QUEUE' : 'EXCHANGE',
-                    (string)$entity->getAliasName()
+                    $entity->getAliasName()
                 )
             );
             $entity->delete();
@@ -75,9 +77,9 @@ class SetupCommand extends BaseCommand
             sprintf(
                 "Created <info>%s</info> <fg=yellow>%s</> for %s [<fg=yellow>%s</>]",
                 (string)($entity instanceof QueueEntity) ? 'QUEUE' : 'EXCHANGE',
-                (string)$entity->getAliasName(),
-                (string)$type,
-                (string)$resourceName
+                $entity->getAliasName(),
+                $type,
+                $resourceName
             )
         );
     }
@@ -85,7 +87,7 @@ class SetupCommand extends BaseCommand
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $forceRecreate = $this->input->getOption('force');
 
@@ -99,9 +101,9 @@ class SetupCommand extends BaseCommand
                 $this->output->error(
                     sprintf(
                         "Could not create entity %s for publisher [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $publisherName,
+                        $e->getMessage()
                     )
                 );
                 $entity->reconnect();
@@ -117,9 +119,9 @@ class SetupCommand extends BaseCommand
                 $this->output->error(
                     sprintf(
                         "Could not create entity %s for consumer [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $publisherName,
+                        $e->getMessage()
                     )
                 );
                 $entity->reconnect();
@@ -134,18 +136,18 @@ class SetupCommand extends BaseCommand
                 $this->output->writeln(
                     sprintf(
                         "Created bind <info>%s</info> for publisher [<fg=yellow>%s</>]",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName
+                        $entity->getAliasName(),
+                        $publisherName
                     )
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $hasErrors = true;
                 $this->output->error(
                     sprintf(
                         "Could not bind entity %s for publisher [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$publisherName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $publisherName,
+                        $e->getMessage()
                     )
                 );
             }
@@ -158,18 +160,18 @@ class SetupCommand extends BaseCommand
                 $this->output->writeln(
                     sprintf(
                         "Bind entity <info>%s</info> for consumer [<fg=yellow>%s</>]",
-                        (string)$entity->getAliasName(),
-                        (string)$consumerAliasName
+                        $entity->getAliasName(),
+                        $consumerAliasName
                     )
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $hasErrors = true;
                 $this->output->error(
                     sprintf(
                         "Could not create bind %s for consumer [%s], got:\n%s",
-                        (string)$entity->getAliasName(),
-                        (string)$consumerAliasName,
-                        (string)$e->getMessage()
+                        $entity->getAliasName(),
+                        $consumerAliasName,
+                        $e->getMessage()
                     )
                 );
             }

@@ -7,6 +7,7 @@ use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\Http\Requests\ConsumeRequest;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class ConsumerController extends Controller
 {
@@ -15,14 +16,16 @@ class ConsumerController extends Controller
      * @return Response
      * @throws PackageConsumerNotExists
      * @throws ValidationException
+     * @throws Throwable
      */
     public function __invoke(ConsumeRequest $request): Response
     {
-        $response = app(ServiceBus::class)->consume(
+        $response = (new ServiceBus())->consume(
             (new \SMSkin\ServiceBus\Requests\ConsumeRequest)->setJson(
                 json_encode($request->input('package'))
             )
         );
+
         if (is_null($response)) {
             return response()->noContent();
         }

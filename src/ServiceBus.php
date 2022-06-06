@@ -5,7 +5,7 @@ namespace SMSkin\ServiceBus;
 use SMSkin\ServiceBus\Controllers\CAsyncPublish;
 use SMSkin\ServiceBus\Controllers\CConsume;
 use SMSkin\ServiceBus\Controllers\CSyncPublish;
-use SMSkin\ServiceBus\Packages\BasePackage;
+use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use SMSkin\ServiceBus\Requests\AsyncPublishRequest;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
 use SMSkin\ServiceBus\Requests\SyncPublishRequest;
@@ -45,12 +45,12 @@ class ServiceBus extends BaseModule
 
     /**
      * @param ConsumeRequest $request
-     * @return BasePackage|null
+     * @return BaseMessage|null
      * @throws Exceptions\PackageConsumerNotExists
      * @throws ValidationException
      * @throws Throwable
      */
-    public function consume(ConsumeRequest $request): ?BasePackage
+    public function consume(ConsumeRequest $request): ?BaseMessage
     {
         $request->validate();
 

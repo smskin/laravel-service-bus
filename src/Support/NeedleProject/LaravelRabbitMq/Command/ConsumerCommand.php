@@ -3,7 +3,6 @@
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command;
 
 use NeedleProject\LaravelRabbitMq\Command\BaseConsumerCommand;
-use Psr\Log\LoggerAwareInterface;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\ConsumerInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Symfony\Component\Console\Command\SignalableCommandInterface;
@@ -43,10 +42,10 @@ class ConsumerCommand extends BaseConsumerCommand implements SignalableCommandIn
         );
 
         $this->consumer = $consumer = $this->getConsumer($this->input->getArgument('consumer'));
-        if ($consumer instanceof LoggerAwareInterface && $isVerbose) {
+        if ($isVerbose) {
             try {
                 $this->injectCliLogger($consumer);
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 // Do nothing, we cannot inject a STDOUT logger
             }
         }

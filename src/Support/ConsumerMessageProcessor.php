@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support;
 
+use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\ServiceBus;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
 use NeedleProject\LaravelRabbitMq\Processor\AbstractMessageProcessor;
@@ -21,8 +22,10 @@ class ConsumerMessageProcessor extends AbstractMessageProcessor
                 (new ConsumeRequest)->setJson($message->getBody())
             );
             return true;
-        } catch (Throwable) {
+        } catch (PackageConsumerNotExists) {
             return false;
+        } catch (Throwable) {
+            return true;
         }
     }
 }

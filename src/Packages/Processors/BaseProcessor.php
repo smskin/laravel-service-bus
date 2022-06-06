@@ -3,6 +3,7 @@
 namespace SMSkin\ServiceBus\Packages\Processors;
 
 use SMSkin\ServiceBus\Packages\BasePackage;
+use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 
 abstract class BaseProcessor
 {
@@ -11,5 +12,5 @@ abstract class BaseProcessor
 
     }
 
-    abstract public function execute(): ?BasePackage;
+    abstract public function execute(): ?BaseMessage;
 }

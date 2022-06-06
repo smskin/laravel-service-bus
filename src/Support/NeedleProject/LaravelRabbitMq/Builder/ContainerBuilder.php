@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Builder;
 
+use RuntimeException;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Container;
 use Illuminate\Support\Collection;
 use NeedleProject\LaravelRabbitMq\AMQPConnection;
@@ -23,7 +24,7 @@ class ContainerBuilder
      * @param array $config
      * @return Container
      */
-    public function createContainer(array $config)
+    public function createContainer(array $config): Container
     {
         $connections = $this->createConnections($config['connections']);
         $exchanges = $this->createExchanges($config['exchanges'], $connections);
@@ -37,11 +38,11 @@ class ContainerBuilder
             } elseif ($queues->has($publisherEntityBind)) {
                 $entity = $queues->get($publisherEntityBind);
             } else {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf(
                         "Cannot create publisher %s: no exchange or queue named %s defined!",
-                        (string)$publisherAliasName,
-                        (string)$publisherEntityBind
+                        $publisherAliasName,
+                        $publisherEntityBind
                     )
                 );
             }
@@ -60,11 +61,11 @@ class ContainerBuilder
                 /** @var QueueEntity $entity */
                 $entity = $queues->get($consumerDetails['queue']);
             } else {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf(
                         "Cannot create consumer %s: no queue named %s defined!",
-                        (string)$consumerAliasName,
-                        (string)$consumerDetails['queue']
+                        $consumerAliasName,
+                        $consumerDetails['queue']
                     )
                 );
             }
@@ -107,11 +108,11 @@ class ContainerBuilder
             // verify if the connection exists
             if (array_key_exists('connection', $exchangeDetails) &&
                 false === $connections->has($exchangeDetails['connection'])) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf(
                         "Could not create exchange %s: connection name %s is not defined!",
-                        (string)$exchangeAliasName,
-                        (string)$exchangeDetails['connection']
+                        $exchangeAliasName,
+                        $exchangeDetails['connection']
                     )
                 );
             }
@@ -140,11 +141,11 @@ class ContainerBuilder
             // verify if the connection exists
             if (array_key_exists('connection', $queueDetails) &&
                 false === $connections->has($queueDetails['connection'])) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf(
                         "Could not create exchange %s: connection name %s is not defined!",
-                        (string)$queueAliasName,
-                        (string)$queueDetails['connection']
+                        $queueAliasName,
+                        $queueDetails['connection']
                     )
                 );
             }

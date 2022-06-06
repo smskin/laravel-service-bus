@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Providers;
 
+use RuntimeException;
 use SMSkin\ServiceBus\Enums\Models\ConsumerItem;
 use SMSkin\ServiceBus\Enums\Models\ExchangeItem;
 use SMSkin\ServiceBus\Enums\Models\PublisherItem;
@@ -170,7 +171,7 @@ class ServiceProvider extends LaravelServiceProvider
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {
-                throw new \RuntimeException("Cannot make Publisher. No publisher identifier provided!");
+                throw new RuntimeException("Cannot make Publisher. No publisher identifier provided!");
             }
             $aliasName = $arguments[0];
             return $container->getPublisher($aliasName);
@@ -187,12 +188,12 @@ class ServiceProvider extends LaravelServiceProvider
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {
-                throw new \RuntimeException("Cannot make Consumer. No consumer identifier provided!");
+                throw new RuntimeException("Cannot make Consumer. No consumer identifier provided!");
             }
             $aliasName = $arguments[0];
 
             if (!$container->hasConsumer($aliasName)) {
-                throw new \RuntimeException("Cannot make Consumer.\nNo consumer with alias name {$aliasName} found!");
+                throw new RuntimeException('Cannot make Consumer.\nNo consumer with alias name '.$aliasName.' found!');
             }
             /** @var LoggerAwareInterface $consumer */
             $consumer = $container->getConsumer($aliasName);

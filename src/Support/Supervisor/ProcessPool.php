@@ -105,7 +105,7 @@ class ProcessPool implements Countable
 
         $this->removeProcesses($difference);
 
-        // Finally we will call the terminate method on each of the processes that need get
+        // Finally, we will call the terminate method on each of the processes that need get
         // terminated so they can start terminating. Terminating is a graceful operation
         // so any jobs they are already running will finish running before these quit.
         collect($this->terminatingProcesses)

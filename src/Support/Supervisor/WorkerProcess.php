@@ -22,7 +22,7 @@ class WorkerProcess
     public Closure $output;
 
     /**
-     * The time at which the cooldown period will be over.
+     * The time at which the cool down period will be over.
      */
     public CarbonImmutable $restartAgainAt;
 
