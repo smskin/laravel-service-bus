@@ -81,7 +81,6 @@ class Supervisor
      */
     public function terminate(int $status = 0)
     {
-        echo 'Terminating' . PHP_EOL;
         $this->working = false;
         $this->processPools->each(function (ProcessPool $pool) {
             $pool->processes()->each(function (WorkerProcess $process) {
@@ -89,10 +88,7 @@ class Supervisor
             });
         });
 
-        while ($this->processPools->map(function (ProcessPool $pool) {
-            echo 'Running count: ' . $pool->runningProcesses()->collapse()->count() . PHP_EOL;
-            return $pool->runningProcesses()->collapse()->count();
-        })) {
+        while ($this->processPools->map->runningProcesses()->collapse()->count()) {
             sleep(1);
         }
         exit($status);
