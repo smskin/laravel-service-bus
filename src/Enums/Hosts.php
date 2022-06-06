@@ -17,11 +17,11 @@ class Hosts extends BaseEnum
      */
     public static function items(): Collection
     {
-        if (!is_null(self::$items)) {
-            return self::$items;
+        if (!is_null(static::$items)) {
+            return static::$items;
         }
 
-        return self::$items = self::getItems();
+        return static::$items = static::getItems();
     }
 
     /**
