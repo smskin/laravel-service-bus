@@ -17,7 +17,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
             return true;
         }
 
-        return $this->working;
+        return !$this->working;
     }
 
     public function stopConsuming()
