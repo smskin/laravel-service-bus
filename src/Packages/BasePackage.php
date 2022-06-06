@@ -11,9 +11,15 @@ use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
 abstract class BasePackage implements Arrayable
 {
     protected ?string $package = null;
+    protected ?string $messageId = null;
     protected string $correlationId;
+    protected ?string $conversationId = null;
+    protected ?string $initiatorId = null;
+    protected ?string $sourceAddress = null;
+    protected ?string $destinationAddress = null;
     protected BaseMessage $message;
     protected Carbon $sentTime;
+    protected ?Host $host = null;
 
     abstract protected function getMessageClass(): string;
 
@@ -33,8 +39,7 @@ abstract class BasePackage implements Arrayable
     public function getProcessor(): BaseProcessor
     {
         $processor = $this->getProcessorClass();
-        if (!$processor)
-        {
+        if (!$processor) {
             throw new Exception('Not processable package');
         }
         return new $processor($this);
@@ -43,21 +48,34 @@ abstract class BasePackage implements Arrayable
     public function toArray(): array
     {
         return [
+            'messageId' => $this->messageId,
+            'correlationId' => $this->correlationId,
+            'conversationId' => $this->conversationId,
+            'initiatorId' => $this->initiatorId,
+            'sourceAddress' => $this->sourceAddress,
+            'destinationAddress' => $this->destinationAddress,
             'messageType' => [
                 'urn:message:' . $this->package ?? static::class
             ],
             'message' => $this->message->toArray(),
             'sentTime' => $this->sentTime->toISOString(),
-            'correlationId' => $this->correlationId
+            'host' => $this->host?->toArray()
         ];
     }
 
     public function fromArray(array $data): static
     {
-        $this->package = $this->preparePackage($data);
+        $this->messageId = $data['messageId'];
         $this->correlationId = $data['correlationId'];
+        $this->conversationId = $data['conversationId'];
+        $this->initiatorId = $data['initiatorId'];
+        $this->sourceAddress = $data['sourceAddress'];
+        $this->destinationAddress = $data['destinationAddress'];
         $this->message = $this->createMessageContext()->fromArray($data['message']);
         $this->sentTime = Carbon::make($data['sentTime']);
+        $this->host = $data['host'] ? (new Host())->fromArray($data['host']) : null;
+
+        $this->package = $this->preparePackage($data);
         return $this;
     }
 
@@ -79,6 +97,16 @@ abstract class BasePackage implements Arrayable
     public function setPackage(?string $package): static
     {
         $this->package = $package;
+        return $this;
+    }
+
+    /**
+     * @param string $messageId
+     * @return static
+     */
+    public function setMessageId(string $messageId): static
+    {
+        $this->messageId = $messageId;
         return $this;
     }
 
