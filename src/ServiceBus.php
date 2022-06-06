@@ -12,6 +12,7 @@ use SMSkin\ServiceBus\Requests\SyncPublishRequest;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Validation\ValidationException;
 use SMSkin\LaravelSupport\BaseModule;
+use Throwable;
 
 class ServiceBus extends BaseModule
 {
@@ -47,6 +48,7 @@ class ServiceBus extends BaseModule
      * @return BasePackage|null
      * @throws Exceptions\PackageConsumerNotExists
      * @throws ValidationException
+     * @throws Throwable
      */
     public function consume(ConsumeRequest $request): ?BasePackage
     {
