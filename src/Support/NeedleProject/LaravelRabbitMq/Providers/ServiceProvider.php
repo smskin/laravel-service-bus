@@ -8,8 +8,8 @@ use SMSkin\ServiceBus\Enums\Models\PublisherItem;
 use SMSkin\ServiceBus\Enums\Models\QueueItem;
 use SMSkin\ServiceBus\Support\ConsumerMessageProcessor;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Builder\ContainerBuilder;
-use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\BaseConsumerCommand;
-use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\BasePublisherCommand;
+use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\ConsumerCommand;
+use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\PublisherCommand;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\DeleteAllCommand;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\ListEntitiesCommand;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\SetupCommand;
@@ -209,9 +209,9 @@ class ServiceProvider extends LaravelServiceProvider
         $this->commands([
             SetupCommand::class,
             ListEntitiesCommand::class,
-            BaseConsumerCommand::class,
+            ConsumerCommand::class,
             DeleteAllCommand::class,
-            BasePublisherCommand::class
+            PublisherCommand::class
         ]);
     }
 }

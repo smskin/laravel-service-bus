@@ -12,7 +12,7 @@ use SMSkin\LaravelSupport\BaseCommand;
  * @package NeedleProject\LaravelRabbitMq\Command
  * @author  Adrian Tilita <adrian@tilita.ro>
  */
-class BasePublisherCommand extends BaseCommand
+class PublisherCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
