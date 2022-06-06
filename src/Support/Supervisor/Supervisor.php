@@ -35,6 +35,12 @@ class Supervisor
         };
     }
 
+    public function start(): void
+    {
+        $this->reScale($this->options->scale);
+        $this->monitor();
+    }
+
     public function restart()
     {
         $this->working = true;

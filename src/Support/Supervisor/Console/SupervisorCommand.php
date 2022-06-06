@@ -47,7 +47,7 @@ class SupervisorCommand extends BaseCommand implements SignalableCommandInterfac
             ->handleOutputUsing(function ($type, $line) {
                 $this->info($line);
             });
-        $supervisor->monitor();
+        $supervisor->start();
     }
 
     /**

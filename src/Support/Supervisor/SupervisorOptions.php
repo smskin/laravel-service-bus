@@ -23,8 +23,9 @@ class SupervisorOptions
         $command = 'exec ' . $escape . PHP_BINARY . $escape . ' artisan ' . $this->command;
 
         return sprintf(
-            "%s %s",
+            "%s %s %s",
             $command,
+            $options->name,
             implode(' ', [
                 '--time=' . $options->time,
                 '--messages=' . $options->messages,
