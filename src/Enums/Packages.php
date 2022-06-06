@@ -20,13 +20,24 @@ class Packages extends BaseEnum
 
     private static ?Collection $items = null;
 
+    /**
+     * @return Collection<PackageItem>
+     */
     public static function items(): Collection
     {
         if (!is_null(self::$items)) {
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<PackageItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new PackageItem)
                 ->setId(self::TEST_ASYNC)
                 ->setClass(TestAsyncMessagePackage::class)

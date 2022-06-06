@@ -21,7 +21,15 @@ class Hosts extends BaseEnum
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<HostsItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new HostsItem)
                 ->setId(self::LOCALHOST)
                 ->setHost('http://nginx/' . config('service-bus.host.route_prefix') . '/consumer')

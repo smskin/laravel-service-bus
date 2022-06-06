@@ -21,7 +21,15 @@ class Connections extends BaseEnum
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<EnumItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new EnumItem())
                 ->setId(self::DEFAULT)
         ]);

@@ -16,13 +16,24 @@ class Exchanges extends BaseEnum
 
     private static ?Collection $items = null;
 
+    /**
+     * @return Collection<ExchangeItem>
+     */
     public static function items(): Collection
     {
         if (!is_null(self::$items)) {
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<ExchangeItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new ExchangeItem())
                 ->setId(self::DEFAULT)
                 ->setConnection(self::getConnectionsEnum()::DEFAULT)

@@ -15,13 +15,24 @@ class Publishers extends BaseEnum
 
     private static ?Collection $items = null;
 
+    /**
+     * @return Collection<PublisherItem>
+     */
     public static function items(): Collection
     {
         if (!is_null(self::$items)) {
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<PublisherItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new PublisherItem())
                 ->setId(self::TEST)
                 ->setExchange(self::getExchangesEnum()::DEFAULT)

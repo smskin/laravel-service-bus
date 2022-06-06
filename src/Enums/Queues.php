@@ -17,13 +17,38 @@ class Queues extends BaseEnum
 
     private static ?Collection $items = null;
 
+    /**
+     * @return Collection<QueueItem>
+     */
     public static function items(): Collection
     {
         if (!is_null(self::$items)) {
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @param string $exchangeId
+     * @return Collection<QueueItem>
+     */
+    public static function getByExchangeId(string $exchangeId): Collection
+    {
+        return static::items()->filter(function (QueueItem $item) use ($exchangeId) {
+            $binds = $item->attributes->bind;
+            return $binds->filter(function (QueueItemBindAttribute $attribute) use ($exchangeId) {
+                return $attribute->exchange === $exchangeId;
+            })->first();
+        });
+    }
+
+    /**
+     * @return Collection<QueueItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new QueueItem())
                 ->setId(self::DEFAULT)
                 ->setConnection(self::getConnectionsEnum()::DEFAULT)
@@ -43,19 +68,5 @@ class Queues extends BaseEnum
                         ]))
                 )
         ]);
-    }
-
-    /**
-     * @param string $exchangeId
-     * @return Collection<QueueItem>
-     */
-    public static function getByExchangeId(string $exchangeId): Collection
-    {
-        return static::items()->filter(function (QueueItem $item) use ($exchangeId) {
-            $binds = $item->attributes->bind;
-            return $binds->filter(function (QueueItemBindAttribute $attribute) use ($exchangeId) {
-                return $attribute->exchange === $exchangeId;
-            })->first();
-        });
     }
 }

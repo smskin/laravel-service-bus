@@ -15,13 +15,24 @@ class Consumers extends BaseEnum
 
     private static ?Collection $items = null;
 
+    /**
+     * @return Collection<ConsumerItem>
+     */
     public static function items(): Collection
     {
         if (!is_null(self::$items)) {
             return self::$items;
         }
 
-        return self::$items = collect([
+        return self::$items = self::getItems();
+    }
+
+    /**
+     * @return Collection<ConsumerItem>
+     */
+    protected static function getItems(): Collection
+    {
+        return collect([
             (new ConsumerItem)
                 ->setId(self::TEST)
                 ->setQueue(self::getQueuesEnum()::DEFAULT)
