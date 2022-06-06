@@ -2,11 +2,11 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Providers;
 
-use RuntimeException;
 use SMSkin\ServiceBus\Enums\Models\ConsumerItem;
 use SMSkin\ServiceBus\Enums\Models\ExchangeItem;
 use SMSkin\ServiceBus\Enums\Models\PublisherItem;
 use SMSkin\ServiceBus\Enums\Models\QueueItem;
+use SMSkin\ServiceBus\Enums\Models\QueueItemBindAttribute;
 use SMSkin\ServiceBus\Support\ConsumerMessageProcessor;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Builder\ContainerBuilder;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command\ConsumerCommand;
@@ -73,18 +73,10 @@ class ServiceProvider extends LaravelServiceProvider
     private function getConfig(): array
     {
         $config = config('service-bus');
-        $exchanges = self::getExchangesEnum()::items()->filter(function (ExchangeItem $item) use ($config) {
-            return in_array($item->id, $config['exchanges']);
-        });
-        $queues = self::getQueuesEnum()::items()->filter(function (QueueItem $item) use ($config) {
-            return in_array($item->id, $config['queues']);
-        });
-        $publishers = self::getPublishersEnum()::items()->filter(function (PublisherItem $item) use ($config) {
-            return in_array($item->id, $config['publishers']);
-        });
-        $consumers = self::getConsumersEnum()::items()->filter(function (ConsumerItem $item) use ($config) {
-            return in_array($item->id, $config['consumers']);
-        });
+        $exchanges = $this->getExchanges($config['exchanges']);
+        $queues = $this->getQueues($config['queues']);
+        $publishers = $this->getPublishers($config['publishers']);
+        $consumers = $this->getConsumers($config['consumers']);
 
         return [
             'connections' => $config['connections']['async'],
@@ -96,6 +88,17 @@ class ServiceProvider extends LaravelServiceProvider
     }
 
     /**
+     * @param array $config
+     * @return Collection<ExchangeItem>
+     */
+    private function getExchanges(array $config): Collection
+    {
+        return self::getExchangesEnum()::items()->filter(function (ExchangeItem $item) use ($config) {
+            return in_array($item->id, $config);
+        });
+    }
+
+    /**
      * @param Collection<ExchangeItem> $exchanges
      * @return array
      */
@@ -103,14 +106,31 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $data = [];
         foreach ($exchanges as $exchange) {
-            $data[$exchange->id] = [
-                // used connection for the producer
-                'connection' => $exchange->connection,
-                'name' => $exchange->rabbitMqName,
-                'attributes' => $exchange->attributes->toArray()
-            ];
+            $data = array_merge($data, [
+                $exchange->id => [
+                    'connection' => $exchange->connection,
+                    'name' => $exchange->rabbitMqName,
+                    'attributes' => $exchange->attributes->toArray()
+                ],
+                $exchange->id . '_error' => [
+                    'connection' => $exchange->connection,
+                    'name' => $exchange->rabbitMqName . '_error',
+                    'attributes' => $exchange->attributes->toArray()
+                ]
+            ]);
         }
         return $data;
+    }
+
+    /**
+     * @param array $config
+     * @return Collection<QueueItemBindAttribute>
+     */
+    private function getQueues(array $config): Collection
+    {
+        return self::getQueuesEnum()::items()->filter(function (QueueItem $item) use ($config) {
+            return in_array($item->id, $config);
+        });
     }
 
     /**
@@ -121,14 +141,35 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $data = [];
         foreach ($queues as $queue) {
-            $data[$queue->id] = [
-                // used connection for the producer
-                'connection' => $queue->connection,
-                'name' => $queue->rabbitMqName,
-                'attributes' => $queue->attributes->toArray()
-            ];
+            $attributes = $queue->attributes->toArray();
+            $errorAttributes = $attributes;
+            $errorAttributes['bind'][0]['exchange'] = $errorAttributes['bind'][0]['exchange'] . '_error';
+
+            $data = array_merge($data, [
+                $queue->id => [
+                    'connection' => $queue->connection,
+                    'name' => $queue->rabbitMqName,
+                    'attributes' => $attributes
+                ],
+                $queue->id . '_error' => [
+                    'connection' => $queue->connection,
+                    'name' => $queue->rabbitMqName . '_error',
+                    'attributes' => $errorAttributes
+                ]
+            ]);
         }
         return $data;
+    }
+
+    /**
+     * @param array $config
+     * @return Collection<PublisherItem>
+     */
+    private function getPublishers(array $config): Collection
+    {
+        return self::getPublishersEnum()::items()->filter(function (PublisherItem $item) use ($config) {
+            return in_array($item->id, $config);
+        });
     }
 
     /**
@@ -139,9 +180,23 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $data = [];
         foreach ($publishers as $publisher) {
-            $data[$publisher->id] = $publisher->exchange;
+            $data = array_merge($data, [
+                $publisher->id => $publisher->exchange,
+                $publisher->id . '_error' => $publisher->exchange . '_error'
+            ]);
         }
         return $data;
+    }
+
+    /**
+     * @param array $config
+     * @return Collection<ConsumerItem>
+     */
+    private function getConsumers(array $config): Collection
+    {
+        return self::getConsumersEnum()::items()->filter(function (ConsumerItem $item) use ($config) {
+            return in_array($item->id, $config);
+        });
     }
 
     /**
@@ -152,11 +207,20 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $data = [];
         foreach ($consumers as $consumer) {
-            $data[$consumer->id] = [
-                'queue' => $consumer->queue,
-                'prefetch_count' => $consumer->prefetchCount,
-                'message_processor' => ConsumerMessageProcessor::class
-            ];
+            $data = array_merge($data, [
+                $consumer->id => [
+                    'queue' => $consumer->queue,
+                    'prefetch_count' => $consumer->prefetchCount,
+                    'message_processor' => ConsumerMessageProcessor::class
+                ]
+            ],
+                [
+                    $consumer->id . '_error' => [
+                        'queue' => $consumer->queue . '_error',
+                        'prefetch_count' => $consumer->prefetchCount,
+                        'message_processor' => ConsumerMessageProcessor::class
+                    ]
+                ]);
         }
         return $data;
     }
@@ -171,7 +235,7 @@ class ServiceProvider extends LaravelServiceProvider
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {
-                throw new RuntimeException("Cannot make Publisher. No publisher identifier provided!");
+                throw new \RuntimeException("Cannot make Publisher. No publisher identifier provided!");
             }
             $aliasName = $arguments[0];
             return $container->getPublisher($aliasName);
@@ -188,12 +252,12 @@ class ServiceProvider extends LaravelServiceProvider
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {
-                throw new RuntimeException("Cannot make Consumer. No consumer identifier provided!");
+                throw new \RuntimeException("Cannot make Consumer. No consumer identifier provided!");
             }
             $aliasName = $arguments[0];
 
             if (!$container->hasConsumer($aliasName)) {
-                throw new RuntimeException('Cannot make Consumer.\nNo consumer with alias name '.$aliasName.' found!');
+                throw new \RuntimeException("Cannot make Consumer.\nNo consumer with alias name {$aliasName} found!");
             }
             /** @var LoggerAwareInterface $consumer */
             $consumer = $container->getConsumer($aliasName);
