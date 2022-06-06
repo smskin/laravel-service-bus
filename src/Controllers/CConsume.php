@@ -27,8 +27,7 @@ class CConsume extends BaseController
      */
     public function execute(): static
     {
-        $package = (new PackageDecoder)->decode($this->request->json);
-        
+        $package = (new PackageDecoder)->decode(json_decode($this->request->json, true));
         try {
             $processor = $package->getProcessor();
             $this->result = $processor->execute();

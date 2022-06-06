@@ -6,7 +6,6 @@ use SMSkin\ServiceBus\Controllers\CAsyncPublish;
 use SMSkin\ServiceBus\Controllers\CConsume;
 use SMSkin\ServiceBus\Controllers\CSyncPublish;
 use SMSkin\ServiceBus\Packages\BasePackage;
-use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use SMSkin\ServiceBus\Requests\AsyncPublishRequest;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
 use SMSkin\ServiceBus\Requests\SyncPublishRequest;
@@ -31,17 +30,17 @@ class ServiceBus extends BaseModule
 
     /**
      * @param SyncPublishRequest $request
-     * @return void
+     * @return BasePackage|null
      * @throws Exceptions\ApiTokenNotDefined
      * @throws Exceptions\PackageConsumerNotExists
      * @throws GuzzleException
      * @throws ValidationException
      */
-    public function syncPublish(SyncPublishRequest $request): void
+    public function syncPublish(SyncPublishRequest $request): ?BasePackage
     {
         $request->validate();
 
-        (new CSyncPublish($request))->execute();
+        return (new CSyncPublish($request))->execute()->getResult();
     }
 
     /**
@@ -51,7 +50,7 @@ class ServiceBus extends BaseModule
      * @throws ValidationException
      * @throws Throwable
      */
-    public function consume(ConsumeRequest $request): ?BaseMessage
+    public function consume(ConsumeRequest $request): ?BasePackage
     {
         $request->validate();
 

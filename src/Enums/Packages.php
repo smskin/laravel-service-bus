@@ -5,9 +5,8 @@ namespace SMSkin\ServiceBus\Enums;
 use Illuminate\Support\Collection;
 use SMSkin\LaravelSupport\BaseEnum;
 use SMSkin\ServiceBus\Enums\Models\PackageItem;
-use SMSkin\ServiceBus\Packages\Processors\TestAsyncMessageProcessor;
-use SMSkin\ServiceBus\Packages\Processors\TestSyncMessageProcessor;
 use SMSkin\ServiceBus\Packages\TestAsyncMessagePackage;
+use SMSkin\ServiceBus\Packages\TestSyncMessageAnswerPackage;
 use SMSkin\ServiceBus\Packages\TestSyncMessagePackage;
 
 class Packages extends BaseEnum
@@ -38,12 +37,13 @@ class Packages extends BaseEnum
         return collect([
             (new PackageItem)
                 ->setId(self::TEST_ASYNC)
-                ->setClass(TestAsyncMessagePackage::class)
-                ->setProcessor(TestAsyncMessageProcessor::class),
+                ->setClass(TestAsyncMessagePackage::class),
             (new PackageItem)
                 ->setId(self::TEST_SYNC)
-                ->setClass(TestSyncMessagePackage::class)
-                ->setProcessor(TestSyncMessageProcessor::class),
+                ->setClass(TestSyncMessagePackage::class),
+            (new PackageItem)
+                ->setId(self::TEST_SYNC_ANSWER)
+                ->setClass(TestSyncMessageAnswerPackage::class)
         ]);
     }
 }

@@ -13,13 +13,12 @@ class PackageDecoder
     use ClassFromConfig;
 
     /**
-     * @param string $json
+     * @param array $data
      * @return BasePackage
      * @throws PackageConsumerNotExists
      */
-    public function decode(string $json): BasePackage
+    public function decode(array $data): BasePackage
     {
-        $data = json_decode($json, true);
         $tempPackage = $this->parsePackage($data);
         $packageEnumItem = $this->getPackageEnumItemByMessageType($tempPackage->getPackage());
         if (!$packageEnumItem) {

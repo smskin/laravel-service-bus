@@ -34,8 +34,8 @@ class CSyncPublish extends BaseController
     {
         $response = $this->submitRequest();
         if ($response->getStatusCode() === 200) {
-            $json = $response->getBody()->getContents();
-            $package = (new PackageDecoder)->decode($json);
+            $json = json_decode($response->getBody()->getContents(), true);
+            $package = (new PackageDecoder)->decode($json['package']);
             $this->result = $package;
             return $this;
         }
