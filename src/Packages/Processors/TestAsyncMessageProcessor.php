@@ -4,7 +4,6 @@ namespace SMSkin\ServiceBus\Packages\Processors;
 
 use Illuminate\Support\Facades\Log;
 use SMSkin\ServiceBus\Packages\BasePackage;
-use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use SMSkin\ServiceBus\Packages\TestAsyncMessagePackage;
 
 class TestAsyncMessageProcessor extends BaseProcessor
@@ -14,7 +13,7 @@ class TestAsyncMessageProcessor extends BaseProcessor
         parent::__construct($package);
     }
 
-    public function execute(): ?BaseMessage
+    public function execute(): ?BasePackage
     {
         Log::debug('Received async package', $this->package->toArray());
         return null;

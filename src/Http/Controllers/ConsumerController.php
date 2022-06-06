@@ -30,7 +30,7 @@ class ConsumerController extends Controller
             return response()->noContent();
         }
         return response()->json([
-            'package' => $response->toArray()
+            'message' => $response->toArray()
         ]);
     }
 }

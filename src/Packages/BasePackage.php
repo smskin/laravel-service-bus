@@ -2,9 +2,11 @@
 
 namespace SMSkin\ServiceBus\Packages;
 
+use Exception;
 use SMSkin\ServiceBus\Contracts\Arrayable;
 use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use Carbon\Carbon;
+use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
 
 abstract class BasePackage implements Arrayable
 {
@@ -14,6 +16,29 @@ abstract class BasePackage implements Arrayable
     protected Carbon $sentTime;
 
     abstract protected function getMessageClass(): string;
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getProcessorClass(): string
+    {
+        throw new Exception('Not processable package');
+    }
+
+    /**
+     * @return BaseProcessor
+     * @throws Exception
+     */
+    public function getProcessor(): BaseProcessor
+    {
+        $processor = $this->getProcessorClass();
+        if (!$processor)
+        {
+            throw new Exception('Not processable package');
+        }
+        return new $processor($this);
+    }
 
     public function toArray(): array
     {

@@ -14,6 +14,7 @@ class Packages extends BaseEnum
 {
     public const TEST_ASYNC = 'TEST_ASYNC';
     public const TEST_SYNC = 'TEST_SYNC';
+    public const TEST_SYNC_ANSWER = 'TEST_SYNC_ANSWER';
 
     private static ?Collection $items = null;
 
