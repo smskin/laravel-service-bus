@@ -38,4 +38,11 @@ class Publishers extends BaseEnum
                 ->setExchange(self::getExchangesEnum()::DEFAULT)
         ]);
     }
+
+    public static function getByExchange(string $exchange): PublisherItem
+    {
+        return static::items()->filter(function (PublisherItem $item) use ($exchange) {
+            return $item->exchange === $exchange;
+        })->firstOrFail();
+    }
 }

@@ -51,4 +51,11 @@ class Exchanges extends BaseEnum
                 )
         ]);
     }
+
+    public static function getByRabbitMqName(string $name): ExchangeItem
+    {
+        return static::items()->filter(function (ExchangeItem $item) use ($name) {
+            return $item->rabbitMqName === $name;
+        })->firstOrFail();
+    }
 }
