@@ -54,5 +54,18 @@ return [
         'active' => true,
         'api_token' => env('SERVICE_BUS_SYNC_HOST_API_TOKEN'),
         'route_prefix' => 'service-bus'
+    ],
+    'supervisor' => [
+        'consumers' => [
+            [
+                'name' => Consumers::TEST,
+                'time' => 60,
+                'messages' => 100,
+                'memory' => 64,
+            ]
+        ],
+        'scale' => 1,
+        'nice' => 0,
+        'timeout' => 60
     ]
 ];

@@ -26,6 +26,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(\SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Providers\ServiceProvider::class);
+        $this->app->register(\SMSkin\ServiceBus\Support\Supervisor\Providers\ServiceProvider::class);
 
         $this->app->singleton(ApiClient::class, function () {
             return new ApiClient();
