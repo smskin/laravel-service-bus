@@ -82,7 +82,7 @@ startsecs=0
 - `service-bus:consume` - consumer command for receive packages from RabbitMQ queue (uses by supervisor command)
 
 ### Service bus supervisor
-Supervisor command run consumer process for each registered consumer (SMSkin\ServiceBus\Enums\Consumers)
+Supervisor command run consumer process for each registered consumer (Config file `service-bus.php`, section `supervisor`)
 
 ### Overriding default enums
 
