@@ -2,6 +2,10 @@
 
 This library provides communication between multiple services. Supports sync and async communications. 
 
+This library uses:
+- https://github.com/needle-project/laravel-rabbitmq - Library for supports AMPQ. Some class was overrides for support current library logic.
+- https://github.com/laravel/horizon - code base of supervisor part
+
 ### Base logic
 
 Base logic builds on package structure. This structure very similar to .Net MassTransit packages. Package contains:
@@ -77,6 +81,9 @@ startsecs=0
 - `service-bus:publish` - command for submit test message to RabbitMQ exchange (for tests)
 - `service-bus:consume` - consumer command for receive packages from RabbitMQ queue (uses by supervisor command)
 
+### Service bus supervisor
+Supervisor command run consumer process for each registered consumer (SMSkin\ServiceBus\Enums\Consumers)
+
 ### Overriding default enums
 
 You can create new enum and override calling it in `service-bus.php` config file. It provides extend the default
@@ -97,7 +104,7 @@ For example
 
 #### Exchanges
 
-Exchanges register in Exchanges enum (SMSkin\ServiceBus\Enums\Exchanges - can be overrides)
+Register exchanges in Exchanges enum (SMSkin\ServiceBus\Enums\Exchanges - can be overrides)
 
 - id - internal id
 - connection - id of connection (SMSkin\ServiceBus\Enums\Connections)
@@ -114,7 +121,7 @@ Exchanges register in Exchanges enum (SMSkin\ServiceBus\Enums\Exchanges - can be
 
 #### Queues
 
-Queues register in Queues enum (SMSkin\ServiceBus\Enums\Queues - can be overrides)
+Register queues in Queues enum  (SMSkin\ServiceBus\Enums\Queues - can be overrides)
 
 - id - internal id
 - connection - id of connection (SMSkin\ServiceBus\Enums\Connections)
@@ -132,14 +139,14 @@ Queues register in Queues enum (SMSkin\ServiceBus\Enums\Queues - can be override
 
 #### Publishers
 
-Publishers register in Publishers enum (SMSkin\ServiceBus\Enums\Publishers - can be overrides)
+Register publishers in Publishers enum  (SMSkin\ServiceBus\Enums\Publishers - can be overrides)
 
 - id - internal id
 - exchange - id of exchange (SMSkin\ServiceBus\Enums\Exchanges)
 
 #### Consumers
 
-Consumers register in Consumers enum (SMSkin\ServiceBus\Enums\Consumers - can be overrides)
+Register consumers in Consumers enum (SMSkin\ServiceBus\Enums\Consumers - can be overrides)
 
 - id - internal id
 - queue - id of queue (SMSkin\ServiceBus\Enums\Queues)
@@ -147,7 +154,7 @@ Consumers register in Consumers enum (SMSkin\ServiceBus\Enums\Consumers - can be
 
 #### Hosts
 
-Hosts register in Hosts enum (SMSkin\ServiceBus\Enums\Hosts - can be overrides)
+Register hosts in Hosts enum (SMSkin\ServiceBus\Enums\Hosts - can be overrides)
 
 - id - internal id
 - host - url of consumer host (for provide synchronous service bus)
