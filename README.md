@@ -317,10 +317,10 @@ $result = (new ServiceBus)->syncPublish(
             (new SyncPublishRequest)
                 ->setHost(Hosts::LOCALHOST)
                 ->setPackage((new TestSyncMessagePackage)
+                    ->setMessageType(Packages::TEST_ASYNC_LOCAL)
                     ->setMessageId(Str::uuid()->toString())
                     ->setCorrelationId(Str::uuid()->toString())
                     ->setSentTime(now())
-                     ->setPackage(Packages::TEST_ASYNC_LOCAL)
                     ->setMessage(
                         (new TestMessage)
                             ->setString1('a1')

@@ -10,7 +10,7 @@ use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
 
 abstract class BasePackage implements Arrayable
 {
-    protected ?string $package = null;
+    protected ?string $messageType = null;
     protected ?string $messageId = null;
     protected string $correlationId;
     protected ?string $conversationId = null;
@@ -57,7 +57,7 @@ abstract class BasePackage implements Arrayable
             'sourceAddress' => $this->sourceAddress,
             'destinationAddress' => $this->destinationAddress,
             'messageType' => [
-                'urn:message:' . $this->package ?? static::class
+                'urn:message:' . $this->messageType ?? static::class
             ],
             'message' => $this->message->toArray(),
             'sentTime' => $this->sentTime->toISOString(),
@@ -67,6 +67,7 @@ abstract class BasePackage implements Arrayable
 
     public function fromArray(array $data): static
     {
+        $this->messageType = $this->parseMessageType($data);
         $this->messageId = $data['messageId'];
         $this->correlationId = $data['correlationId'];
         $this->conversationId = $data['conversationId'];
@@ -76,12 +77,10 @@ abstract class BasePackage implements Arrayable
         $this->message = $this->createMessageContext()->fromArray($data['message']);
         $this->sentTime = Carbon::make($data['sentTime']);
         $this->host = $data['host'] ? (new Host())->fromArray($data['host']) : null;
-
-        $this->package = $this->preparePackage($data);
         return $this;
     }
 
-    private function preparePackage(array $data): string
+    private function parseMessageType(array $data): string
     {
         return str_replace('urn:message:', '', $data['messageType'][0]);
     }
@@ -156,18 +155,18 @@ abstract class BasePackage implements Arrayable
         return $this->message;
     }
 
-    public function getPackage(): string
+    public function getMessageType(): string
     {
-        return $this->package;
+        return $this->messageType;
     }
 
     /**
-     * @param string|null $package
+     * @param string|null $messageType
      * @return BasePackage
      */
-    public function setPackage(?string $package): BasePackage
+    public function setMessageType(?string $messageType): BasePackage
     {
-        $this->package = $package;
+        $this->messageType = $messageType;
         return $this;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace SMSkin\ServiceBus\Support;
 
-use SMSkin\ServiceBus\Enums\Packages;
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\Packages\ExceptionPackage;
 use SMSkin\ServiceBus\Packages\Messages\ExceptionMessage;

@@ -3,7 +3,6 @@
 namespace SMSkin\ServiceBus\Packages\Processors;
 
 use Illuminate\Support\Facades\Log;
-use SMSkin\ServiceBus\Enums\Packages;
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Packages\Messages\TestMessage;
 use SMSkin\ServiceBus\Packages\TestSyncMessageAnswerPackage;
