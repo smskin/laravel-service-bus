@@ -42,7 +42,6 @@ class ConsumerMessageProcessor extends AbstractMessageProcessor
     private function putPackageToErrorQueue(AMQPMessage $message, Throwable $exception): void
     {
         $package = (new ExceptionPackage())
-            ->setPackage(Packages::EXCEPTION)
             ->setCorrelationId(Str::uuid()->toString())
             ->setSentTime(now())
             ->setMessage(

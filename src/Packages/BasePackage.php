@@ -93,16 +93,6 @@ abstract class BasePackage implements Arrayable
     }
 
     /**
-     * @param string|null $package
-     * @return static
-     */
-    public function setPackage(?string $package): static
-    {
-        $this->package = $package;
-        return $this;
-    }
-
-    /**
      * @param string $messageId
      * @return static
      */

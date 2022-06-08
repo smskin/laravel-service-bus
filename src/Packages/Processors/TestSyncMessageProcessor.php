@@ -25,7 +25,6 @@ class TestSyncMessageProcessor extends BaseProcessor
         Log::debug('Received sync package', $this->package->toArray());
 
         return (new TestSyncMessageAnswerPackage)
-            ->setPackage(Packages::TEST_SYNC_ANSWER)
             ->setCorrelationId($this->package->getCorrelationId())
             ->setSentTime(now())
             ->setMessage(
