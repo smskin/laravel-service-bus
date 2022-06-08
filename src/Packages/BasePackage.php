@@ -160,4 +160,14 @@ abstract class BasePackage implements Arrayable
     {
         return $this->package;
     }
+
+    /**
+     * @param string|null $package
+     * @return BasePackage
+     */
+    public function setPackage(?string $package): BasePackage
+    {
+        $this->package = $package;
+        return $this;
+    }
 }
