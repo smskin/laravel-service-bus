@@ -155,4 +155,9 @@ abstract class BasePackage implements Arrayable
     {
         return $this->message;
     }
+
+    public function getPackage(): string
+    {
+        return $this->package;
+    }
 }
