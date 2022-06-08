@@ -320,6 +320,7 @@ $result = (new ServiceBus)->syncPublish(
                     ->setMessageId(Str::uuid()->toString())
                     ->setCorrelationId(Str::uuid()->toString())
                     ->setSentTime(now())
+                     ->setPackage(Packages::TEST_ASYNC_LOCAL)
                     ->setMessage(
                         (new TestMessage)
                             ->setString1('a1')
