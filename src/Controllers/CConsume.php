@@ -7,6 +7,7 @@ use SMSkin\LaravelSupport\BaseController;
 use SMSkin\LaravelSupport\BaseRequest;
 use SMSkin\ServiceBus\Events\EPackageConsumed;
 use SMSkin\ServiceBus\Events\EPackageProcessed;
+use SMSkin\ServiceBus\Exceptions\NotProcessablePackage;
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
@@ -35,6 +36,8 @@ class CConsume extends BaseController
             $processor = $package->getProcessor();
             $this->result = $processor->execute();
             $this->registerProcessedEvent($package);
+        } catch (NotProcessablePackage) {
+
         } catch (Throwable $exception) {
             Log::error('Consume failed', [
                 'json' => $this->request->json,

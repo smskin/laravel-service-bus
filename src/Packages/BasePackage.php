@@ -2,8 +2,8 @@
 
 namespace SMSkin\ServiceBus\Packages;
 
-use Exception;
 use SMSkin\ServiceBus\Contracts\Arrayable;
+use SMSkin\ServiceBus\Exceptions\NotProcessablePackage;
 use SMSkin\ServiceBus\Packages\Messages\BaseMessage;
 use Carbon\Carbon;
 use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
@@ -27,22 +27,22 @@ abstract class BasePackage implements Arrayable
 
     /**
      * @return string
-     * @throws Exception
+     * @throws NotProcessablePackage
      */
     public function getProcessorClass(): string
     {
-        throw new Exception('Not processable package');
+        throw new NotProcessablePackage();
     }
 
     /**
      * @return BaseProcessor
-     * @throws Exception
+     * @throws NotProcessablePackage
      */
     public function getProcessor(): BaseProcessor
     {
         $processor = $this->getProcessorClass();
         if (!$processor) {
-            throw new Exception('Not processable package');
+            throw new NotProcessablePackage();
         }
         return new $processor($this);
     }
