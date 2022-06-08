@@ -191,20 +191,26 @@ Example of package:
 
 namespace App\Modules\ServiceBus\Packages;
 
+use App\Modules\ServiceBus\Enums\Packages;
 use App\Modules\ServiceBus\Packages\Messages\TestMessage;
 use App\Modules\ServiceBus\Packages\Processors\TestMessageProcessor;
 use SMSkin\ServiceBus\Packages\BasePackage;
 
 class TestMessagePackage extends BasePackage
 {
+    public function package(): string
+    {
+        return Packages::TEST_SYNC;
+    }
+
+    protected function messageClass(): string
+    {
+        return TestMessage::class;
+    }
+
     public function getProcessorClass(): string
     {
         return TestMessageProcessor::class;
-    }
-
-    protected function getMessageClass(): string
-    {
-        return TestMessage::class;
     }
 }
 ```
@@ -311,7 +317,6 @@ $result = (new ServiceBus)->syncPublish(
             (new SyncPublishRequest)
                 ->setHost(Hosts::LOCALHOST)
                 ->setPackage((new TestSyncMessagePackage)
-                    ->setPackage(Packages::TEST_SYNC)
                     ->setMessageId(Str::uuid()->toString())
                     ->setCorrelationId(Str::uuid()->toString())
                     ->setSentTime(now())
