@@ -20,7 +20,7 @@ class PackageDecoder
     public function decode(array $data): BasePackage
     {
         $tempPackage = $this->parsePackage($data);
-        $packageEnumItem = $this->getPackageEnumItemByMessageType($tempPackage->getPackage());
+        $packageEnumItem = $this->getPackageEnumItemByMessageType($tempPackage->package());
         if (!$packageEnumItem) {
             throw new PackageConsumerNotExists();
         }

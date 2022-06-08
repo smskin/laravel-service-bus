@@ -21,7 +21,9 @@ abstract class BasePackage implements Arrayable
     protected Carbon $sentTime;
     protected ?Host $host = null;
 
-    abstract protected function getMessageClass(): string;
+    abstract public function package(): string;
+
+    abstract protected function messageClass(): string;
 
     /**
      * @return string
@@ -86,7 +88,7 @@ abstract class BasePackage implements Arrayable
 
     private function createMessageContext(): BaseMessage
     {
-        $class = $this->getMessageClass();
+        $class = $this->messageClass();
         return new $class;
     }
 
@@ -138,14 +140,6 @@ abstract class BasePackage implements Arrayable
     {
         $this->sentTime = $sentTime;
         return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPackage(): ?string
-    {
-        return $this->package;
     }
 
     /**
