@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Controllers;
 
+use SMSkin\ServiceBus\Events\EPackageSubmitted;
 use SMSkin\ServiceBus\Requests\AsyncPublishRequest;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
 use SMSkin\LaravelSupport\BaseController;
@@ -19,6 +20,7 @@ class CAsyncPublish extends BaseController
             json_encode($this->request->package->toArray()),
             $this->request->routingKey
         );
+        $this->registerSubmittedEvent();
         return $this;
     }
 
@@ -27,5 +29,13 @@ class CAsyncPublish extends BaseController
         return app(PublisherInterface::class, [
             $this->request->publisher
         ]);
+    }
+
+    private function registerSubmittedEvent()
+    {
+        event(new EPackageSubmitted(
+            $this->request->package,
+            $this->request->publisher,
+        ));
     }
 }

@@ -5,6 +5,8 @@ namespace SMSkin\ServiceBus\Controllers;
 use Illuminate\Support\Facades\Log;
 use SMSkin\LaravelSupport\BaseController;
 use SMSkin\LaravelSupport\BaseRequest;
+use SMSkin\ServiceBus\Events\EPackageConsumed;
+use SMSkin\ServiceBus\Events\EPackageProcessed;
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
@@ -28,9 +30,11 @@ class CConsume extends BaseController
     public function execute(): static
     {
         $package = (new PackageDecoder)->decode(json_decode($this->request->json, true));
+        $this->registerConsumedEvent($package);
         try {
             $processor = $package->getProcessor();
             $this->result = $processor->execute();
+            $this->registerProcessedEvent($package);
         } catch (Throwable $exception) {
             Log::error('Consume failed', [
                 'json' => $this->request->json,
@@ -47,5 +51,15 @@ class CConsume extends BaseController
     public function getResult(): ?BasePackage
     {
         return parent::getResult();
+    }
+
+    private function registerConsumedEvent(BasePackage $package)
+    {
+        event(new EPackageConsumed($package));
+    }
+
+    private function registerProcessedEvent(BasePackage $package)
+    {
+        event(new EPackageProcessed($package));
     }
 }

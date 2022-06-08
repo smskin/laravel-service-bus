@@ -3,6 +3,7 @@
 namespace SMSkin\ServiceBus\Controllers;
 
 use SMSkin\ServiceBus\Enums\Models\HostsItem;
+use SMSkin\ServiceBus\Events\EPackageSubmitted;
 use SMSkin\ServiceBus\Exceptions\ApiTokenNotDefined;
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
@@ -33,12 +34,14 @@ class CSyncPublish extends BaseController
     public function execute(): static
     {
         $response = $this->submitRequest();
+        $this->registerSubmittedEvent();
         if ($response->getStatusCode() === 200) {
             $json = json_decode($response->getBody()->getContents(), true);
             $package = (new PackageDecoder)->decode($json['package']);
             $this->result = $package;
             return $this;
         }
+
         return $this;
     }
 
@@ -89,5 +92,14 @@ class CSyncPublish extends BaseController
                 'X-API-TOKEN' => $this->getApiToken()
             ]
         );
+    }
+
+    private function registerSubmittedEvent()
+    {
+        event(new EPackageSubmitted(
+            $this->request->package,
+            null,
+            $this->request->host,
+        ));
     }
 }
