@@ -63,13 +63,9 @@ autorestart=true
 user=www-data
 group=www-data
 redirect_stderr=true
-stdout_logfile=/dev/stdout
+numprocs=1
 stderr_logfile=/dev/stderr
-stdout_maxbytes=0
-stderr_maxbytes=0
-stdout_logfile_maxbytes = 0
-stderr_logfile_maxbytes = 0
-startsecs=0
+stdout_logfile=/dev/stdout
 ```
 
 ### Artisan commands
