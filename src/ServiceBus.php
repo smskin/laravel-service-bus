@@ -2,6 +2,8 @@
 
 namespace SMSkin\ServiceBus;
 
+use PhpAmqpLib\Exception\AMQPChannelClosedException;
+use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
 use SMSkin\ServiceBus\Controllers\CAsyncPublish;
 use SMSkin\ServiceBus\Controllers\CConsume;
 use SMSkin\ServiceBus\Controllers\CSyncPublish;
@@ -20,6 +22,8 @@ class ServiceBus extends BaseModule
      * @param AsyncPublishRequest $request
      * @return void
      * @throws ValidationException
+     * @throws AMQPHeartbeatMissedException
+     * @throws AMQPChannelClosedException
      */
     public function asyncPublish(AsyncPublishRequest $request): void
     {
