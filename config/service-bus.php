@@ -29,7 +29,8 @@ return [
                 'lazy' => true,
                 'read_write_timeout' => 8,
                 'connect_timeout' => 10,
-                'heartbeat' => 4
+                'heartbeat' => 4,
+                'keep_alive' => false
             ]
         ],
         'sync' => [
@@ -62,7 +63,7 @@ return [
                 'time' => 60,
                 'messages' => 100,
                 'memory' => 64,
-            ]
+            ],
         ],
         'scale' => 1,
         'nice' => 0,
