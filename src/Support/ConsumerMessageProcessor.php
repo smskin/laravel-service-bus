@@ -3,13 +3,13 @@
 namespace SMSkin\ServiceBus\Support;
 
 use SMSkin\ServiceBus\Exceptions\PackageConsumerNotExists;
+use SMSkin\ServiceBus\Jobs\SubmitExceptionPackageToRabbitMQ;
 use SMSkin\ServiceBus\Packages\ExceptionPackage;
 use SMSkin\ServiceBus\Packages\Messages\ExceptionMessage;
 use SMSkin\ServiceBus\ServiceBus;
 use SMSkin\ServiceBus\Requests\ConsumeRequest;
 use NeedleProject\LaravelRabbitMq\Processor\AbstractMessageProcessor;
 use PhpAmqpLib\Message\AMQPMessage;
-use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
 use SMSkin\ServiceBus\Traits\ClassFromConfig;
 use Throwable;
 use Illuminate\Support\Str;
@@ -52,16 +52,6 @@ class ConsumerMessageProcessor extends AbstractMessageProcessor
         $exchange = self::getExchangesEnum()::getByRabbitMqName($message->getExchange());
         $publisher = self::getPublishersEnum()::getByExchange($exchange->id);
 
-        $this->getPublisher($publisher->id . '_error')->publish(
-            json_encode($package->toArray()),
-            '*'
-        );
-    }
-
-    private function getPublisher(string $publisher): PublisherInterface
-    {
-        return app(PublisherInterface::class, [
-            $publisher
-        ]);
+        dispatch(new SubmitExceptionPackageToRabbitMQ($publisher, $package));
     }
 }
