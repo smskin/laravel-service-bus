@@ -31,7 +31,7 @@ class SubmitExceptionPackageToRabbitMQ extends BaseJob implements ShouldQueue
         } catch (AMQPHeartbeatMissedException|AMQPChannelClosedException $exception) {
             Log::error($exception);
             dispatch(new self($this->publisher, $this->package))
-                ->delay(now()->addMinute());
+                ->delay(now()->addSecond());
             return;
         }
     }
