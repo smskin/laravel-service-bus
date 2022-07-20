@@ -3,6 +3,7 @@
 namespace SMSkin\ServiceBus\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
 use SMSkin\LaravelSupport\BaseJob;
@@ -27,7 +28,8 @@ class SubmitExceptionPackageToRabbitMQ extends BaseJob implements ShouldQueue
                 json_encode($this->package->toArray()),
                 '*'
             );
-        } catch (AMQPHeartbeatMissedException|AMQPChannelClosedException) {
+        } catch (AMQPHeartbeatMissedException|AMQPChannelClosedException $exception) {
+            Log::error($exception);
             $this->release(10);
             return;
         }
