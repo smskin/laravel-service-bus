@@ -26,6 +26,7 @@ class TestSyncMessageProcessor extends BaseProcessor
         return (new TestSyncMessageAnswerPackage)
             ->setCorrelationId($this->package->getCorrelationId())
             ->setSentTime(now())
+            ->setPriority(2)
             ->setMessage(
                 (new TestMessage)
                     ->setString1('a1')

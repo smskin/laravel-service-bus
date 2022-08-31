@@ -13,6 +13,7 @@ class QueueItemAttributes implements Arrayable
     public bool $internal;
     public bool $nowait;
     public bool $exclusive;
+    public array $arguments;
 
     /**
      * @var Collection<QueueItemBindAttribute>
@@ -28,7 +29,8 @@ class QueueItemAttributes implements Arrayable
             'internal' => $this->internal,
             'nowait' => $this->nowait,
             'exclusive' => $this->exclusive,
-            'bind' => $this->bind->toArray()
+            'bind' => $this->bind->toArray(),
+            'arguments' => $this->arguments
         ];
     }
 
@@ -99,6 +101,16 @@ class QueueItemAttributes implements Arrayable
     public function setBind(Collection $bind): QueueItemAttributes
     {
         $this->bind = $bind;
+        return $this;
+    }
+
+    /**
+     * @param array $arguments
+     * @return QueueItemAttributes
+     */
+    public function setArguments(array $arguments): QueueItemAttributes
+    {
+        $this->arguments = $arguments;
         return $this;
     }
 }
