@@ -13,7 +13,7 @@ class QueueItemAttributes implements Arrayable
     public bool $internal;
     public bool $nowait;
     public bool $exclusive;
-    public array $arguments;
+    public array $arguments = [];
 
     /**
      * @var Collection<QueueItemBindAttribute>
