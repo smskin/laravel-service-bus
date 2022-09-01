@@ -37,7 +37,6 @@ class ContainerBuilder
                 $entity = $exchanges->get($publisherEntityBind);
             } elseif ($queues->has($publisherEntityBind)) {
                 $entity = $queues->get($publisherEntityBind);
-                $entity->create();
             } else {
                 throw new RuntimeException(
                     sprintf(
