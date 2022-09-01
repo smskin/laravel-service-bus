@@ -4,6 +4,7 @@ namespace SMSkin\ServiceBus\Enums\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class QueueItemAttributes implements Arrayable
 {
@@ -30,7 +31,7 @@ class QueueItemAttributes implements Arrayable
             'nowait' => $this->nowait,
             'exclusive' => $this->exclusive,
             'bind' => $this->bind->toArray(),
-            'arguments' => $this->arguments
+            'arguments' => new AMQPTable($this->arguments)
         ];
     }
 
