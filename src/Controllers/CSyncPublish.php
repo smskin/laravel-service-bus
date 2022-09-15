@@ -55,10 +55,10 @@ class CSyncPublish extends BaseController
 
     private function getHostEnum(): HostsItem|EnumItem
     {
-        return self::getHostsEnum()::getById($this->request->host);
+        return self::getHostsEnum()::getById($this->request->getHost());
     }
 
-    private function getApi()
+    private function getApi(): ApiClient
     {
         return app(ApiClient::class);
     }
@@ -69,7 +69,7 @@ class CSyncPublish extends BaseController
      */
     private function getApiToken(): string
     {
-        $apiToken = config('service-bus.connections.sync')[$this->request->host]['api_token'];
+        $apiToken = config('service-bus.connections.sync')[$this->request->getHost()]['api_token'];
         if (!$apiToken) {
             throw new ApiTokenNotDefined();
         }
@@ -86,7 +86,7 @@ class CSyncPublish extends BaseController
         return $this->getApi()->post(
             $this->getHostEnum()->host,
             [
-                'package' => $this->request->package->toArray()
+                'package' => $this->request->getPackage()->toArray()
             ],
             [
                 'X-API-TOKEN' => $this->getApiToken()
@@ -97,9 +97,9 @@ class CSyncPublish extends BaseController
     private function registerSubmittedEvent()
     {
         event(new EPackageSubmitted(
-            $this->request->package,
+            $this->request->getPackage(),
             null,
-            $this->request->host,
+            $this->request->getHost(),
         ));
     }
 }

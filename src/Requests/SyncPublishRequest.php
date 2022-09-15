@@ -4,30 +4,14 @@ namespace SMSkin\ServiceBus\Requests;
 
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Traits\ClassFromConfig;
-use Illuminate\Validation\Rule;
 use SMSkin\LaravelSupport\BaseRequest;
-use SMSkin\LaravelSupport\Rules\InstanceOfRule;
 
 class SyncPublishRequest extends BaseRequest
 {
     use ClassFromConfig;
 
-    public string $host;
-    public BasePackage $package;
-
-    public function rules(): array
-    {
-        return [
-            'host' => [
-                'required',
-                Rule::in(self::getHostsEnum()::getKeys())
-            ],
-            'package' => [
-                'required',
-                new InstanceOfRule(BasePackage::class)
-            ],
-        ];
-    }
+    protected string $host;
+    protected BasePackage $package;
 
     /**
      * @param string $host
@@ -47,5 +31,21 @@ class SyncPublishRequest extends BaseRequest
     {
         $this->package = $package;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return BasePackage
+     */
+    public function getPackage(): BasePackage
+    {
+        return $this->package;
     }
 }

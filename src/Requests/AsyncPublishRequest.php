@@ -4,35 +4,15 @@ namespace SMSkin\ServiceBus\Requests;
 
 use SMSkin\ServiceBus\Packages\BasePackage;
 use SMSkin\ServiceBus\Traits\ClassFromConfig;
-use Illuminate\Validation\Rule;
 use SMSkin\LaravelSupport\BaseRequest;
-use SMSkin\LaravelSupport\Rules\InstanceOfRule;
 
 class AsyncPublishRequest extends BaseRequest
 {
     use ClassFromConfig;
 
-    public string $publisher;
-    public BasePackage $package;
-    public string $routingKey;
-
-    public function rules(): array
-    {
-        return [
-            'publisher' => [
-                'required',
-                Rule::in(self::getPublishersEnum()::getKeys())
-            ],
-            'package' => [
-                'required',
-                new InstanceOfRule(BasePackage::class)
-            ],
-            'routingKey' => [
-                'required',
-                'string'
-            ]
-        ];
-    }
+    protected string $publisher;
+    protected BasePackage $package;
+    protected string $routingKey;
 
     /**
      * @param BasePackage $package
@@ -62,5 +42,29 @@ class AsyncPublishRequest extends BaseRequest
     {
         $this->routingKey = $routingKey;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublisher(): string
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @return BasePackage
+     */
+    public function getPackage(): BasePackage
+    {
+        return $this->package;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoutingKey(): string
+    {
+        return $this->routingKey;
     }
 }

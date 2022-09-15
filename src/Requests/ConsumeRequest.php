@@ -6,16 +6,7 @@ use SMSkin\LaravelSupport\BaseRequest;
 
 class ConsumeRequest extends BaseRequest
 {
-    public string $json;
-
-    public function rules(): array
-    {
-        return [
-            'json' => [
-                'required'
-            ]
-        ];
-    }
+    protected string $json;
 
     /**
      * @param string $json
@@ -25,5 +16,13 @@ class ConsumeRequest extends BaseRequest
     {
         $this->json = $json;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJson(): string
+    {
+        return $this->json;
     }
 }

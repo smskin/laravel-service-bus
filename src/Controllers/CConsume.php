@@ -30,7 +30,7 @@ class CConsume extends BaseController
      */
     public function execute(): static
     {
-        $package = (new PackageDecoder)->decode(json_decode($this->request->json, true));
+        $package = (new PackageDecoder)->decode(json_decode($this->request->getJson(), true));
         $this->registerConsumedEvent($package);
         try {
             $processor = $package->getProcessor();
@@ -40,7 +40,7 @@ class CConsume extends BaseController
 
         } catch (Throwable $exception) {
             Log::error('Consume failed', [
-                'json' => $this->request->json,
+                'json' => $this->request->getJson(),
                 'exception' => $exception
             ]);
             throw $exception;
