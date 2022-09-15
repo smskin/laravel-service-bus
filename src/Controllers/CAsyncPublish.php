@@ -24,8 +24,8 @@ class CAsyncPublish extends BaseController
     public function execute(): static
     {
         $this->getPublisher()->publish(
-            json_encode($this->request->package->toArray()),
-            $this->request->routingKey
+            json_encode($this->request->getPackage()->toArray()),
+            $this->request->getRoutingKey()
         );
         $this->registerSubmittedEvent();
         return $this;
@@ -34,15 +34,15 @@ class CAsyncPublish extends BaseController
     private function getPublisher(): PublisherInterface
     {
         return app(PublisherInterface::class, [
-            $this->request->publisher
+            $this->request->getPublisher()
         ]);
     }
 
     private function registerSubmittedEvent()
     {
         event(new EPackageSubmitted(
-            $this->request->package,
-            $this->request->publisher,
+            $this->request->getPackage(),
+            $this->request->getPublisher(),
         ));
     }
 }

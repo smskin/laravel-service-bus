@@ -54,6 +54,7 @@ class SetupCommand extends BaseCommand
      * @param string $resourceName
      * @param bool $forceRecreate
      * @throws AMQPProtocolChannelException
+     * @noinspection PhpDocRedundantThrowsInspection
      */
     private function createEntity(
         AMQPEntityInterface $entity,

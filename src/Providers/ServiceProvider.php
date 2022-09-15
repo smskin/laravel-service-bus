@@ -9,10 +9,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadConfig();
-
-//        if (app()->runningInConsole()) {
-//            $this->registerMigrations();
-//        }
     }
 
     /**
@@ -45,14 +41,5 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $configPath = __DIR__ . '/../../config/service-bus.php';
         $this->mergeConfigFrom($configPath, 'service-bus');
-    }
-
-    private function registerMigrations()
-    {
-        $this->publishes([
-            __DIR__ . '/../../migrations' => database_path('migrations'),
-        ], 'service-bus');
-
-        $this->loadMigrationsFrom(__DIR__ . '/../../migrations');
     }
 }
