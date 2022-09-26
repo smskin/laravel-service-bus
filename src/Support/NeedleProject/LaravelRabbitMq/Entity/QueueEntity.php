@@ -20,11 +20,6 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
     public function create()
     {
         try {
-//            $options = new AMQPTable([
-//                'x-max-priority' => 3,
-//            ]);
-
-            Log::alert('$this->attributes', ['data' => print_r($this->attributes, true)]);
             $this->getChannel()
                 ->queue_declare(
                     $this->attributes['name'],
@@ -52,17 +47,13 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
         }
         foreach ($this->attributes['bind'] as $bindItem) {
             try {
-//                $options = new AMQPTable([
-//                    'x-max-priority' => 3,
-//                ]);
-                Log::alert('$this->attributes123', ['data' => print_r($this->attributes, true)]);
                 $this->getChannel()
                     ->queue_bind(
                         $this->attributes['name'],
                         $bindItem['exchange'],
                         $bindItem['routing_key'],
-                        $this->attributes['nowait'],
-                        $this->attributes['arguments'],
+                       // $this->attributes['nowait'],
+                        //$this->attributes['arguments'],
                     );
             } catch (AMQPProtocolChannelException $e) {
                 // 404 is the code for trying to bind to an non-existing entity
