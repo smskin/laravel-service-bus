@@ -20,11 +20,11 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
     public function create()
     {
         try {
-            $options = new AMQPTable([
-                'x-max-priority' => 3,
-            ]);
+//            $options = new AMQPTable([
+//                'x-max-priority' => 3,
+//            ]);
 
-            Log::alert('$this->attributes', ['data' => print_r($this->attributes, true)]);
+           // Log::alert('$this->attributes', ['data' => print_r($this->attributes, true)]);
             $this->getChannel()
                 ->queue_declare(
                     $this->attributes['name'],
@@ -33,7 +33,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
                     $this->attributes['exclusive'],
                     $this->attributes['auto_delete'],
                     $this->attributes['nowait'],
-                    $options
+                    $this->attributes
                 );
         } catch (AMQPProtocolChannelException $e) {
             // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
