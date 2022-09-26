@@ -5,7 +5,6 @@ namespace SMSkin\ServiceBus\Enums\Models;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use PhpAmqpLib\Wire\AMQPTable;
-use Log;
 
 class QueueItemAttributes implements Arrayable
 {
