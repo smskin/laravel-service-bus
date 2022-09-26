@@ -76,7 +76,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
             // Retry publishing with re-connect
             if ($this->retryCount < self::MAX_RETRIES) {
                 $this->getConnection()->reconnect();
-                $this->publish($message, $routingKey);
+                $this->publish($message, $routingKey, $properties);
                 return;
             }
             throw $exception;

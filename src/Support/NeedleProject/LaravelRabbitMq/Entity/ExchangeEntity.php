@@ -62,7 +62,7 @@ class ExchangeEntity extends \NeedleProject\LaravelRabbitMq\Entity\ExchangeEntit
         \Log::alert('asdas23452', ['data' => print_r($properties, true)]);
         try {
             $this->getChannel()->basic_publish(
-                new AMQPMessage($message),
+                new AMQPMessage($message, $properties),
                 $this->attributes['name'],
                 $routingKey,
                 true
@@ -73,7 +73,7 @@ class ExchangeEntity extends \NeedleProject\LaravelRabbitMq\Entity\ExchangeEntit
             // Retry publishing with re-connect
             if ($this->retryCount < self::MAX_RETRIES) {
                 $this->getConnection()->reconnect();
-                $this->publish($message, $routingKey);
+                $this->publish($message, $routingKey, $properties);
                 return;
             }
             throw $exception;
