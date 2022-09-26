@@ -33,7 +33,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
                     $this->attributes['exclusive'],
                     $this->attributes['auto_delete'],
                     $this->attributes['nowait'],
-                    $this->attributes
+                    $this->attributes['arguments']
                 );
         } catch (AMQPProtocolChannelException $e) {
             // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
