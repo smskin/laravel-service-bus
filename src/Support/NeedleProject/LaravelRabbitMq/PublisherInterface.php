@@ -2,7 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq;
 
-interface PublisherInterface extends \NeedleProject\LaravelRabbitMq\PublisherInterface
+interface PublisherInterface
 {
     /**
      * Publish a new message
