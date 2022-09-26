@@ -5,6 +5,7 @@ namespace SMSkin\ServiceBus\Enums\Models;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use PhpAmqpLib\Wire\AMQPTable;
+use Log;
 
 class QueueItemAttributes implements Arrayable
 {
@@ -24,6 +25,8 @@ class QueueItemAttributes implements Arrayable
     public function toArray(): array
     {
         $options = new AMQPTable($this->arguments);
+        Log::alert('asasd', ['data' => print_r($options, true)]);
+        Log::alert('asasd', ['data' => print_r($this->arguments, true)]);
         return [
             'passive' => $this->passive,
             'durable' => $this->durable,
