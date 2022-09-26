@@ -8,6 +8,7 @@ use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\ConsumerInterface;
 use NeedleProject\LaravelRabbitMq\Entity\AMQPEntityInterface;
 use Psr\Log\LoggerAwareInterface;
 use Log;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityInterface, LoggerAwareInterface
 {
@@ -19,6 +20,10 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
     public function create()
     {
         try {
+            $options = new AMQPTable([
+                'x-max-priority' => 3,
+            ]);
+
             Log::alert('$this->attributes', ['data' => print_r($this->attributes, true)]);
             $this->getChannel()
                 ->queue_declare(
@@ -28,7 +33,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
                     $this->attributes['exclusive'],
                     $this->attributes['auto_delete'],
                     $this->attributes['nowait'],
-                    $this->attributes['arguments']
+                    $options
                 );
         } catch (AMQPProtocolChannelException $e) {
             // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
