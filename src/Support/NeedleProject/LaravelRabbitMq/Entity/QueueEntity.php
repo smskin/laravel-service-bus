@@ -18,6 +18,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
     public function create()
     {
         try {
+            Log::alert('$this->attributes', ['data' => print_r($this->attributes, true)]);
             $this->getChannel()
                 ->queue_declare(
                     $this->attributes['name'],
