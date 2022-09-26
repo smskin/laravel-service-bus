@@ -60,6 +60,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
             $this->bind();
         }
 
+        \Log::alert('asdas2345', ['data' => print_r($properties, true)]);
         try {
             $this->getChannel()
                 ->basic_publish(
