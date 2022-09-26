@@ -23,6 +23,7 @@ class QueueItemAttributes implements Arrayable
 
     public function toArray(): array
     {
+        $options = new AMQPTable($this->arguments);
         return [
             'passive' => $this->passive,
             'durable' => $this->durable,
@@ -31,7 +32,7 @@ class QueueItemAttributes implements Arrayable
             'nowait' => $this->nowait,
             'exclusive' => $this->exclusive,
             'bind' => $this->bind->toArray(),
-            'arguments' => new AMQPTable($this->arguments)
+            'arguments' => $options
         ];
     }
 
