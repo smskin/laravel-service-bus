@@ -64,7 +64,7 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
         try {
             $this->getChannel()
                 ->basic_publish(
-                    new AMQPMessage($message. $properties),
+                    new AMQPMessage($message. ['priority' => 3]),
                     '',
                     $this->attributes['name'],
                     true
