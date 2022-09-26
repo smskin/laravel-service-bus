@@ -61,8 +61,7 @@ class Queues extends BaseEnum
                         ->setInternal(false)
                         ->setNowait(false)
                         ->setExclusive(false)
-                        ->setArguments(['queue_max_priority', 5])
-                        //->setArguments(['x-max-priority', 5])
+                        ->setArguments(['x-max-priority', 5])
                         ->setBind(collect([
                             (new QueueItemBindAttribute())
                                 ->setExchange(self::getExchangesEnum()::DEFAULT)
