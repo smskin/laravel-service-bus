@@ -13,6 +13,7 @@ class AsyncPublishRequest extends BaseRequest
     protected string $publisher;
     protected BasePackage $package;
     protected string $routingKey;
+    protected array $properties = [];
 
     /**
      * @param BasePackage $package
@@ -45,6 +46,16 @@ class AsyncPublishRequest extends BaseRequest
     }
 
     /**
+     * @param array $properties
+     * @return AsyncPublishRequest
+     */
+    public function setProperties(array $properties): AsyncPublishRequest
+    {
+        $this->properties = $properties;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getPublisher(): string
@@ -66,5 +77,13 @@ class AsyncPublishRequest extends BaseRequest
     public function getRoutingKey(): string
     {
         return $this->routingKey;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return $this->properties;
     }
 }

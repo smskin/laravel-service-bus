@@ -2,7 +2,9 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Entity;
 
+use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
+use PhpAmqpLib\Message\AMQPMessage;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\ConsumerInterface;
 use NeedleProject\LaravelRabbitMq\Entity\AMQPEntityInterface;
@@ -11,6 +13,11 @@ use Psr\Log\LoggerAwareInterface;
 class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityInterface, LoggerAwareInterface
 {
     protected bool $working = true;
+
+    /**
+     * @const int   Retry count when a Channel Closed exeption is thrown
+     */
+    const MAX_RETRIES = 3;
 
     public function bind()
     {
@@ -34,6 +41,43 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
                 }
                 $this->reconnect();
             }
+        }
+    }
+
+    /**
+     * Publish a message
+     *
+     * @param string $message
+     * @param string $routingKey
+     * @param array $properties
+     * @return mixed|void
+     * @throws AMQPProtocolChannelException
+     */
+    public function publish(string $message, string $routingKey = '', array $properties = [])
+    {
+        if ($this->attributes['auto_create'] === true) {
+            $this->create();
+            $this->bind();
+        }
+
+        try {
+            $this->getChannel()
+                ->basic_publish(
+                    new AMQPMessage($message. $properties),
+                    '',
+                    $this->attributes['name'],
+                    true
+                );
+            $this->retryCount = 0;
+        } catch (AMQPChannelClosedException $exception) {
+            $this->retryCount++;
+            // Retry publishing with re-connect
+            if ($this->retryCount < self::MAX_RETRIES) {
+                $this->getConnection()->reconnect();
+                $this->publish($message, $routingKey);
+                return;
+            }
+            throw $exception;
         }
     }
 

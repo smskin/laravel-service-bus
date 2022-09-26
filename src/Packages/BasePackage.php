@@ -20,7 +20,6 @@ abstract class BasePackage implements Arrayable
     protected BaseMessage $message;
     protected Carbon $sentTime;
     protected ?Host $host = null;
-    protected ?int $priority = 1;
 
     abstract public function package(): string;
 
@@ -62,8 +61,7 @@ abstract class BasePackage implements Arrayable
             ],
             'message' => $this->message->toArray(),
             'sentTime' => $this->sentTime->toISOString(),
-            'host' => $this->host?->toArray(),
-            'priority' => $this->priority
+            'host' => $this->host?->toArray()
         ];
     }
 
@@ -79,7 +77,6 @@ abstract class BasePackage implements Arrayable
         $this->message = $this->createMessageContext()->fromArray($data['message']);
         $this->sentTime = Carbon::make($data['sentTime']);
         $this->host = $data['host'] ? (new Host())->fromArray($data['host']) : null;
-        $this->priority = $data['priority'];
         return $this;
     }
 
@@ -170,16 +167,6 @@ abstract class BasePackage implements Arrayable
     public function setMessageType(?string $messageType): BasePackage
     {
         $this->messageType = $messageType;
-        return $this;
-    }
-
-    /**
-     * @param int|null $priority
-     * @return BasePackage
-     */
-    public function setPriority(?int $priority): BasePackage
-    {
-        $this->priority = $priority;
         return $this;
     }
 }

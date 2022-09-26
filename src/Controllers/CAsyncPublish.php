@@ -25,7 +25,8 @@ class CAsyncPublish extends BaseController
     {
         $this->getPublisher()->publish(
             json_encode($this->request->getPackage()->toArray()),
-            $this->request->getRoutingKey()
+            $this->request->getRoutingKey(),
+            $this->request->getProperties()
         );
         $this->registerSubmittedEvent();
         return $this;
