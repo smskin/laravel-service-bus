@@ -23,8 +23,6 @@ class CAsyncPublish extends BaseController
      */
     public function execute(): static
     {
-        \Log::alert('asdas23451', ['data' => print_r($this->request->getProperties(), true)]);
-        \Log::alert('asdas23451123', ['data' => print_r($this->getPublisher(), true)]);
         $this->getPublisher()->publish(
             json_encode($this->request->getPackage()->toArray()),
             $this->request->getRoutingKey(),

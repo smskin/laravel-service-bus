@@ -55,13 +55,11 @@ class QueueEntity extends \NeedleProject\LaravelRabbitMq\Entity\QueueEntity impl
      */
     public function publish(string $message, string $routingKey = '', array $properties = [])
     {
-        \Log::alert('asdas23451', ['data' => print_r($properties, true)]);
         if ($this->attributes['auto_create'] === true) {
             $this->create();
             $this->bind();
         }
 
-        \Log::alert('asdas23452', ['data' => print_r($properties, true)]);
         try {
             $this->getChannel()
                 ->basic_publish(

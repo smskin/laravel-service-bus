@@ -54,12 +54,10 @@ class ExchangeEntity extends \NeedleProject\LaravelRabbitMq\Entity\ExchangeEntit
      */
     public function publish(string $message, string $routingKey = '', array $properties = [])
     {
-        \Log::alert('asdas23451', ['data' => print_r($properties, true)]);
         if ($this->attributes['auto_create'] === true) {
             $this->create();
             $this->bind();
         }
-        \Log::alert('asdas23452', ['data' => print_r($properties, true)]);
         try {
             $this->getChannel()->basic_publish(
                 new AMQPMessage($message, $properties),
