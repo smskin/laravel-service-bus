@@ -7,7 +7,7 @@ use SMSkin\ServiceBus\Packages\BasePackage;
 
 class EPackageSubmitted extends BaseEvent
 {
-    public function __construct(public BasePackage $package, public ?string $publisher = null, public ?string $host = null)
+    public function __construct(public BasePackage $package, public string|null $publisher = null, public string|null $host = null)
     {
     }
 }

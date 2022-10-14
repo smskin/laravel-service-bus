@@ -8,11 +8,7 @@ class PackageItem extends EnumItem
 {
     public string $class;
 
-    /**
-     * @param string $class
-     * @return PackageItem
-     */
-    public function setClass(string $class): PackageItem
+    public function setClass(string $class): self
     {
         $this->class = $class;
         return $this;

@@ -15,10 +15,6 @@ class ApiClient
     }
 
     /**
-     * @param string $uri
-     * @param array $body
-     * @param array $headers
-     * @return ResponseInterface
      * @throws GuzzleException
      */
     public function post(string $uri, array $body = [], array $headers = []): ResponseInterface

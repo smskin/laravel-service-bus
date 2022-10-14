@@ -21,7 +21,7 @@ class CConsume extends BaseController
 
     protected ConsumeRequest|BaseRequest|null $request;
 
-    protected ?string $requestClass = ConsumeRequest::class;
+    protected string|null $requestClass = ConsumeRequest::class;
 
     /**
      * @return $this
@@ -51,7 +51,7 @@ class CConsume extends BaseController
     /**
      * @return BasePackage|null
      */
-    public function getResult(): ?BasePackage
+    public function getResult(): BasePackage|null
     {
         return parent::getResult();
     }

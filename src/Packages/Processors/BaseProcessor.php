@@ -11,5 +11,5 @@ abstract class BaseProcessor
 
     }
 
-    abstract public function execute(): ?BasePackage;
+    abstract public function execute(): BasePackage|null;
 }

@@ -59,8 +59,6 @@ class ConsumerCommand extends BaseConsumerCommand implements SignalableCommandIn
     }
 
     /**
-     * @param string $consumerAliasName
-     * @return ConsumerInterface
      * @throws BindingResolutionException
      */
     protected function getConsumer(string $consumerAliasName): ConsumerInterface
@@ -80,9 +78,6 @@ class ConsumerCommand extends BaseConsumerCommand implements SignalableCommandIn
 
     /**
      * Handle an incoming signal.
-     *
-     * @param int $signal
-     * @return void
      */
     public function handleSignal(int $signal): void
     {

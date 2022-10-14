@@ -33,8 +33,6 @@ class ListEntitiesCommand extends BaseCommand
 
     /**
      * CreateEntitiesCommand constructor.
-     *
-     * @param Container $container
      */
     public function __construct(Container $container)
     {

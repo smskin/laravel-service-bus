@@ -29,81 +29,49 @@ class ExchangeItemAttributes implements Arrayable
         ];
     }
 
-    /**
-     * @param string $exchangeType
-     * @return ExchangeItemAttributes
-     */
-    public function setExchangeType(string $exchangeType): ExchangeItemAttributes
+    public function setExchangeType(string $exchangeType): self
     {
         $this->exchangeType = $exchangeType;
         return $this;
     }
 
-    /**
-     * @param bool $passive
-     * @return ExchangeItemAttributes
-     */
-    public function setPassive(bool $passive): ExchangeItemAttributes
+    public function setPassive(bool $passive): self
     {
         $this->passive = $passive;
         return $this;
     }
 
-    /**
-     * @param bool $durable
-     * @return ExchangeItemAttributes
-     */
-    public function setDurable(bool $durable): ExchangeItemAttributes
+    public function setDurable(bool $durable): self
     {
         $this->durable = $durable;
         return $this;
     }
 
-    /**
-     * @param bool $autoDelete
-     * @return ExchangeItemAttributes
-     */
-    public function setAutoDelete(bool $autoDelete): ExchangeItemAttributes
+    public function setAutoDelete(bool $autoDelete): self
     {
         $this->autoDelete = $autoDelete;
         return $this;
     }
 
-    /**
-     * @param bool $internal
-     * @return ExchangeItemAttributes
-     */
-    public function setInternal(bool $internal): ExchangeItemAttributes
+    public function setInternal(bool $internal): self
     {
         $this->internal = $internal;
         return $this;
     }
 
-    /**
-     * @param bool $nowait
-     * @return ExchangeItemAttributes
-     */
-    public function setNowait(bool $nowait): ExchangeItemAttributes
+    public function setNowait(bool $nowait): self
     {
         $this->nowait = $nowait;
         return $this;
     }
 
-    /**
-     * @param bool $throwExceptionOnRedeclare
-     * @return ExchangeItemAttributes
-     */
-    public function setThrowExceptionOnRedeclare(bool $throwExceptionOnRedeclare): ExchangeItemAttributes
+    public function setThrowExceptionOnRedeclare(bool $throwExceptionOnRedeclare): self
     {
         $this->throwExceptionOnRedeclare = $throwExceptionOnRedeclare;
         return $this;
     }
 
-    /**
-     * @param bool $throwExceptionOnBindFail
-     * @return ExchangeItemAttributes
-     */
-    public function setThrowExceptionOnBindFail(bool $throwExceptionOnBindFail): ExchangeItemAttributes
+    public function setThrowExceptionOnBindFail(bool $throwExceptionOnBindFail): self
     {
         $this->throwExceptionOnBindFail = $throwExceptionOnBindFail;
         return $this;

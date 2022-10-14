@@ -31,28 +31,22 @@ class ProcessPool implements Countable
      *
      * @var Closure|null
      */
-    public ?Closure $output;
+    public Closure|null $output;
 
     /**
      * Create a new process pool instance.
-     *
-     * @param Closure|null $output
-     * @return void
      */
     public function __construct(protected SupervisorOptions $options, protected ConsumerOptions $consumerOptions, Closure $output = null)
     {
-        $this->output = $output ?: function () {
+        $this->output = $output ?: static function () {
             //
         };
     }
 
     /**
      * Scale the process count.
-     *
-     * @param int $processes
-     * @return void
      */
-    public function scale(int $processes)
+    public function scale(int $processes): void
     {
         $processes = max(0, $processes);
 
@@ -69,11 +63,8 @@ class ProcessPool implements Countable
 
     /**
      * Scale up to the given number of processes.
-     *
-     * @param int $processes
-     * @return void
      */
-    protected function scaleUp(int $processes)
+    protected function scaleUp(int $processes): void
     {
         $difference = $processes - count($this->processes);
 
@@ -84,11 +75,8 @@ class ProcessPool implements Countable
 
     /**
      * Scale down to the given number of processes.
-     *
-     * @param int $processes
-     * @return void
      */
-    protected function scaleDown(int $processes)
+    protected function scaleDown(int $processes): void
     {
         $difference = count($this->processes) - $processes;
 
@@ -109,18 +97,15 @@ class ProcessPool implements Countable
         // terminated so they can start terminating. Terminating is a graceful operation
         // so any jobs they are already running will finish running before these quit.
         collect($this->terminatingProcesses)
-            ->each(function ($process) {
+            ->each(static function ($process) {
                 $process['process']->terminate();
             });
     }
 
     /**
      * Mark the given worker process for termination.
-     *
-     * @param WorkerProcess $process
-     * @return void
      */
-    public function markForTermination(WorkerProcess $process)
+    public function markForTermination(WorkerProcess $process): void
     {
         $this->terminatingProcesses[] = [
             'process' => $process, 'terminatedAt' => CarbonImmutable::now(),
@@ -129,11 +114,8 @@ class ProcessPool implements Countable
 
     /**
      * Remove the given number of processes from the process array.
-     *
-     * @param int $count
-     * @return void
      */
-    protected function removeProcesses(int $count)
+    protected function removeProcesses(int $count): void
     {
         array_splice($this->processes, 0, $count);
 
@@ -171,9 +153,9 @@ class ProcessPool implements Countable
      *
      * @return void
      */
-    public function monitor()
+    public function monitor(): void
     {
-        $this->processes()->each(function (WorkerProcess $process) {
+        $this->processes()->each(static function (WorkerProcess $process) {
             $process->monitor();
         });
     }
@@ -183,7 +165,7 @@ class ProcessPool implements Countable
      *
      * @return void
      */
-    public function restart()
+    public function restart(): void
     {
         $count = count($this->processes);
 
@@ -198,11 +180,11 @@ class ProcessPool implements Countable
      * @return void
      * @throws ExceptionInterface
      */
-    public function pause()
+    public function pause(): void
     {
         $this->working = false;
 
-        $this->processes()->each(function (WorkerProcess $process) {
+        $this->processes()->each(static function (WorkerProcess $process) {
             $process->pause();
         });
     }
@@ -213,11 +195,11 @@ class ProcessPool implements Countable
      * @return void
      * @throws ExceptionInterface
      */
-    public function continue()
+    public function continue(): void
     {
         $this->working = true;
 
-        $this->processes()->each(function (WorkerProcess $process) {
+        $this->processes()->each(static function (WorkerProcess $process) {
             $process->continue();
         });
     }
@@ -226,10 +208,10 @@ class ProcessPool implements Countable
      * @return void
      * @throws ExceptionInterface
      */
-    public function terminate()
+    public function terminate(): void
     {
         $this->working = false;
-        $this->processes()->each(function (WorkerProcess $process) {
+        $this->processes()->each(static function (WorkerProcess $process) {
             $process->terminate();
         });
     }
@@ -251,13 +233,13 @@ class ProcessPool implements Countable
      *
      * @return void
      */
-    public function pruneTerminatingProcesses()
+    public function pruneTerminatingProcesses(): void
     {
         $this->stopTerminatingProcessesThatAreHanging();
 
         $this->terminatingProcesses = collect(
             $this->terminatingProcesses
-        )->filter(function ($process) {
+        )->filter(static function ($process) {
             return $process['process']->isRunning();
         })->all();
     }
@@ -267,7 +249,7 @@ class ProcessPool implements Countable
      *
      * @return void
      */
-    protected function stopTerminatingProcessesThatAreHanging()
+    protected function stopTerminatingProcessesThatAreHanging(): void
     {
         foreach ($this->terminatingProcesses as $process) {
             $timeout = $this->options->timeout;
@@ -295,7 +277,7 @@ class ProcessPool implements Countable
      */
     public function runningProcesses(): Collection
     {
-        return $this->processes()->filter(function (WorkerProcess $process) {
+        return $this->processes()->filter(static function (WorkerProcess $process) {
             return $process->process->isRunning();
         });
     }

@@ -4,6 +4,7 @@ namespace SMSkin\ServiceBus;
 
 use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
+use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use SMSkin\ServiceBus\Controllers\CAsyncPublish;
 use SMSkin\ServiceBus\Controllers\CConsume;
 use SMSkin\ServiceBus\Controllers\CSyncPublish;
@@ -18,10 +19,9 @@ use Throwable;
 class ServiceBus extends BaseModule
 {
     /**
-     * @param AsyncPublishRequest $request
-     * @return void
      * @throws AMQPHeartbeatMissedException
      * @throws AMQPChannelClosedException
+     * @throws AMQPProtocolChannelException
      */
     public function asyncPublish(AsyncPublishRequest $request): void
     {
@@ -29,24 +29,21 @@ class ServiceBus extends BaseModule
     }
 
     /**
-     * @param SyncPublishRequest $request
-     * @return BasePackage|null
      * @throws Exceptions\ApiTokenNotDefined
      * @throws Exceptions\PackageConsumerNotExists
      * @throws GuzzleException
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
-    public function syncPublish(SyncPublishRequest $request): ?BasePackage
+    private function syncPublish(SyncPublishRequest $request): BasePackage|null
     {
         return (new CSyncPublish($request))->execute()->getResult();
     }
 
     /**
-     * @param ConsumeRequest $request
-     * @return BasePackage|null
      * @throws Exceptions\PackageConsumerNotExists
      * @throws Throwable
      */
-    public function consume(ConsumeRequest $request): ?BasePackage
+    public function consume(ConsumeRequest $request): BasePackage|null
     {
         return (new CConsume($request))->execute()->getResult();
     }

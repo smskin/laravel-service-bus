@@ -39,8 +39,6 @@ class SetupCommand extends BaseCommand
 
     /**
      * CreateEntitiesCommand constructor.
-     *
-     * @param Container $container
      */
     public function __construct(Container $container)
     {
@@ -49,10 +47,6 @@ class SetupCommand extends BaseCommand
     }
 
     /**
-     * @param AMQPEntityInterface $entity
-     * @param string $type
-     * @param string $resourceName
-     * @param bool $forceRecreate
      * @throws AMQPProtocolChannelException
      * @noinspection PhpDocRedundantThrowsInspection
      */
@@ -62,7 +56,7 @@ class SetupCommand extends BaseCommand
         string $resourceName,
         bool $forceRecreate = false
     ) {
-        if (true === $forceRecreate) {
+        if ($forceRecreate === true) {
             $this->output->writeln(
                 sprintf(
                     "Deleting <info>%s</info> <fg=yellow>%s</>",

@@ -8,11 +8,7 @@ class PublisherItem extends EnumItem
 {
     public string $exchange;
 
-    /**
-     * @param string $exchange
-     * @return PublisherItem
-     */
-    public function setExchange(string $exchange): PublisherItem
+    public function setExchange(string $exchange): self
     {
         $this->exchange = $exchange;
         return $this;

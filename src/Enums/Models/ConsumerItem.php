@@ -9,21 +9,13 @@ class ConsumerItem extends EnumItem
     public string $queue;
     public int $prefetchCount;
 
-    /**
-     * @param string $queue
-     * @return ConsumerItem
-     */
-    public function setQueue(string $queue): ConsumerItem
+    public function setQueue(string $queue): self
     {
         $this->queue = $queue;
         return $this;
     }
 
-    /**
-     * @param int $prefetchCount
-     * @return ConsumerItem
-     */
-    public function setPrefetchCount(int $prefetchCount): ConsumerItem
+    public function setPrefetchCount(int $prefetchCount): self
     {
         $this->prefetchCount = $prefetchCount;
         return $this;

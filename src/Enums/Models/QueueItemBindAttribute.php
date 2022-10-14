@@ -21,21 +21,13 @@ class QueueItemBindAttribute implements Arrayable
         ];
     }
 
-    /**
-     * @param string $exchange
-     * @return QueueItemBindAttribute
-     */
-    public function setExchange(string $exchange): QueueItemBindAttribute
+    public function setExchange(string $exchange): self
     {
         $this->exchange = $exchange;
         return $this;
     }
 
-    /**
-     * @param string $routingKey
-     * @return QueueItemBindAttribute
-     */
-    public function setRoutingKey(string $routingKey): QueueItemBindAttribute
+    public function setRoutingKey(string $routingKey): self
     {
         $this->routingKey = $routingKey;
         return $this;

@@ -10,14 +10,14 @@ class Connections extends BaseEnum
 {
     public const DEFAULT = 'DEFAULT';
 
-    private static ?Collection $items = null;
+    private static Collection|null $items = null;
 
     /**
      * @return Collection<EnumItem>
      */
     public static function items(): Collection
     {
-        if (!is_null(static::$items)) {
+        if (static::$items !== null) {
             return static::$items;
         }
 

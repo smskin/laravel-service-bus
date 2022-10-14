@@ -19,10 +19,6 @@ class ConsumerMessageProcessor extends AbstractMessageProcessor
 {
     use ClassFromConfig;
 
-    /**
-     * @param AMQPMessage $message
-     * @return bool
-     */
     public function processMessage(AMQPMessage $message): bool
     {
         try {

@@ -16,7 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerConfig();
 
@@ -24,7 +24,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->register(\SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Providers\ServiceProvider::class);
         $this->app->register(\SMSkin\ServiceBus\Support\Supervisor\Providers\ServiceProvider::class);
 
-        $this->app->singleton(ApiClient::class, function () {
+        $this->app->singleton(ApiClient::class, static function () {
             return new ApiClient();
         });
     }

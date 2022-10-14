@@ -31,7 +31,7 @@ class Supervisor
         }
 
         $this->processPools = $this->createProcessPools();
-        $this->output = function () {
+        $this->output = static function () {
         };
     }
 
@@ -41,10 +41,10 @@ class Supervisor
         $this->monitor();
     }
 
-    public function restart()
+    public function restart(): void
     {
         $this->working = true;
-        $this->processPools->each(function (ProcessPool $pool) {
+        $this->processPools->each(static function (ProcessPool $pool) {
             $pool->restart();
         });
     }
@@ -53,14 +53,14 @@ class Supervisor
      * @return void
      * @throws ExceptionInterface
      */
-    public function pause()
+    public function pause(): void
     {
         if (!$this->working) {
             return;
         }
 
         $this->working = false;
-        $this->processPools->each(function (ProcessPool $pool) {
+        $this->processPools->each(static function (ProcessPool $pool) {
             $pool->pause();
         });
     }
@@ -69,27 +69,25 @@ class Supervisor
      * @return void
      * @throws ExceptionInterface
      */
-    public function continue()
+    public function continue(): void
     {
         if ($this->working) {
             return;
         }
         $this->working = true;
-        $this->processPools->each(function (ProcessPool $pool) {
+        $this->processPools->each(static function (ProcessPool $pool) {
             $pool->continue();
         });
     }
 
     /**
-     * @param int $status
-     * @return void
      * @throws ExceptionInterface
      */
-    public function terminate(int $status = 0)
+    public function terminate(int $status = 0): void
     {
         $this->working = false;
-        $this->processPools->each(function (ProcessPool $pool) {
-            $pool->processes()->each(function (WorkerProcess $process) {
+        $this->processPools->each(static function (ProcessPool $pool) {
+            $pool->processes()->each(static function (WorkerProcess $process) {
                 $process->terminate();
             });
         });
@@ -101,18 +99,15 @@ class Supervisor
         exit($status);
     }
 
-    public function reScale(int $processes)
+    public function reScale(int $processes): void
     {
-        $this->processPools->each(function (ProcessPool $pool) use ($processes) {
+        $this->processPools->each(static function (ProcessPool $pool) use ($processes) {
             $pool->scale($processes);
         });
     }
 
     /**
      * Set the output handler.
-     *
-     * @param Closure $callback
-     * @return Supervisor
      */
     public function handleOutputUsing(Closure $callback): static
     {
@@ -121,7 +116,7 @@ class Supervisor
         return $this;
     }
 
-    public function monitor()
+    public function monitor(): void
     {
         while ($this->working) {
             sleep(1);
@@ -129,9 +124,9 @@ class Supervisor
         }
     }
 
-    private function loop()
+    private function loop(): void
     {
-        $this->processPools->each(function (ProcessPool $pool) {
+        $this->processPools->each(static function (ProcessPool $pool) {
             $pool->monitor();
         });
         event(new SupervisorLooped($this));

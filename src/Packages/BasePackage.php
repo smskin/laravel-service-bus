@@ -10,16 +10,16 @@ use SMSkin\ServiceBus\Packages\Processors\BaseProcessor;
 
 abstract class BasePackage implements Arrayable
 {
-    protected ?string $messageType = null;
-    protected ?string $messageId = null;
+    protected string|null $messageType = null;
+    protected string|null $messageId = null;
     protected string $correlationId;
-    protected ?string $conversationId = null;
-    protected ?string $initiatorId = null;
-    protected ?string $sourceAddress = null;
-    protected ?string $destinationAddress = null;
+    protected string|null $conversationId = null;
+    protected string|null $initiatorId = null;
+    protected string|null $sourceAddress = null;
+    protected string|null $destinationAddress = null;
     protected BaseMessage $message;
     protected Carbon $sentTime;
-    protected ?Host $host = null;
+    protected Host|null $host = null;
 
     abstract public function package(): string;
 
@@ -91,65 +91,40 @@ abstract class BasePackage implements Arrayable
         return new $class;
     }
 
-    /**
-     * @param string $messageId
-     * @return static
-     */
     public function setMessageId(string $messageId): static
     {
         $this->messageId = $messageId;
         return $this;
     }
 
-    /**
-     * @param string $correlationId
-     * @return static
-     */
     public function setCorrelationId(string $correlationId): static
     {
         $this->correlationId = $correlationId;
         return $this;
     }
 
-    /**
-     * @param BaseMessage $message
-     * @return static
-     */
     public function setMessage(BaseMessage $message): static
     {
         $this->message = $message;
         return $this;
     }
 
-    /**
-     * @param Carbon $sentTime
-     * @return static
-     */
     public function setSentTime(Carbon $sentTime): static
     {
         $this->sentTime = $sentTime;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCorrelationId(): string
     {
         return $this->correlationId;
     }
 
-    /**
-     * @return Carbon
-     */
     public function getSentTime(): Carbon
     {
         return $this->sentTime;
     }
 
-    /**
-     * @return BaseMessage
-     */
     public function getMessage(): BaseMessage
     {
         return $this->message;
@@ -160,11 +135,7 @@ abstract class BasePackage implements Arrayable
         return $this->messageType;
     }
 
-    /**
-     * @param string|null $messageType
-     * @return BasePackage
-     */
-    public function setMessageType(?string $messageType): BasePackage
+    public function setMessageType(string|null $messageType): self
     {
         $this->messageType = $messageType;
         return $this;

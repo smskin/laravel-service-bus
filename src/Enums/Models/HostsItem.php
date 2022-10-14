@@ -8,11 +8,7 @@ class HostsItem extends EnumItem
 {
     public string $host;
 
-    /**
-     * @param string $host
-     * @return HostsItem
-     */
-    public function setHost(string $host): HostsItem
+    public function setHost(string $host): self
     {
         $this->host = $host;
         return $this;

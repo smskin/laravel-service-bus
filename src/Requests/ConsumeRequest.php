@@ -8,19 +8,12 @@ class ConsumeRequest extends BaseRequest
 {
     protected string $json;
 
-    /**
-     * @param string $json
-     * @return ConsumeRequest
-     */
-    public function setJson(string $json): ConsumeRequest
+    public function setJson(string $json): self
     {
         $this->json = $json;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getJson(): string
     {
         return $this->json;

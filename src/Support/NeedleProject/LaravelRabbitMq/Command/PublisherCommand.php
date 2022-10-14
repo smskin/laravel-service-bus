@@ -2,6 +2,7 @@
 
 namespace SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Command;
 
+use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\Container;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
 use SMSkin\LaravelSupport\BaseCommand;
@@ -30,18 +31,12 @@ class PublisherCommand extends BaseCommand
 
     /**
      * BasePublisherCommand constructor.
-     *
-     * @param ?Container $container
      */
-    public function __construct(private ?Container $container)
+    public function __construct(private readonly Container|null $container)
     {
         parent::__construct();
     }
 
-    /**
-     * @param string $publisherAliasName
-     * @return PublisherInterface|\NeedleProject\LaravelRabbitMq\PublisherInterface
-     */
     protected function getPublisher(string $publisherAliasName): PublisherInterface|\NeedleProject\LaravelRabbitMq\PublisherInterface
     {
         return $this->container->getPublisher($publisherAliasName);
@@ -50,6 +45,7 @@ class PublisherCommand extends BaseCommand
     /**
      * Execute the console command.
      * @return int
+     * @throws AMQPProtocolChannelException
      */
     public function handle(): int
     {

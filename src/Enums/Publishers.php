@@ -13,14 +13,14 @@ class Publishers extends BaseEnum
 
     public const TEST = 'TEST';
 
-    private static ?Collection $items = null;
+    private static Collection|null $items = null;
 
     /**
      * @return Collection<PublisherItem>
      */
     public static function items(): Collection
     {
-        if (!is_null(static::$items)) {
+        if (static::$items !== null) {
             return static::$items;
         }
 
@@ -41,7 +41,7 @@ class Publishers extends BaseEnum
 
     public static function getByExchange(string $exchange): PublisherItem
     {
-        return static::items()->filter(function (PublisherItem $item) use ($exchange) {
+        return static::items()->filter(static function (PublisherItem $item) use ($exchange) {
             return $item->exchange === $exchange;
         })->firstOrFail();
     }

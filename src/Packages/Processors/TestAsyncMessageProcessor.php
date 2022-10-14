@@ -13,7 +13,7 @@ class TestAsyncMessageProcessor extends BaseProcessor
         parent::__construct($package);
     }
 
-    public function execute(): ?BasePackage
+    public function execute(): BasePackage|null
     {
         Log::debug('Received async package', $this->package->toArray());
         return null;

@@ -39,7 +39,7 @@ class ServiceProvider extends LaravelServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerContainer();
         $this->registerPublishers();
@@ -51,7 +51,7 @@ class ServiceProvider extends LaravelServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerCommands();
     }
@@ -64,7 +64,7 @@ class ServiceProvider extends LaravelServiceProvider
 
         $this->app->singleton(
             Container::class,
-            function () use ($config) {
+            static function () use ($config) {
                 $container = new ContainerBuilder();
                 return $container->createContainer($config);
             }
@@ -93,7 +93,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     private function getExchanges(array $config): Collection
     {
-        return self::getExchangesEnum()::items()->filter(function (ExchangeItem $item) use ($config) {
+        return self::getExchangesEnum()::items()->filter(static function (ExchangeItem $item) use ($config) {
             return in_array($item->id, $config);
         });
     }
@@ -128,7 +128,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     private function getQueues(array $config): Collection
     {
-        return self::getQueuesEnum()::items()->filter(function (QueueItem $item) use ($config) {
+        return self::getQueuesEnum()::items()->filter(static function (QueueItem $item) use ($config) {
             return in_array($item->id, $config);
         });
     }
@@ -167,7 +167,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     private function getPublishers(array $config): Collection
     {
-        return self::getPublishersEnum()::items()->filter(function (PublisherItem $item) use ($config) {
+        return self::getPublishersEnum()::items()->filter(static function (PublisherItem $item) use ($config) {
             return in_array($item->id, $config);
         });
     }
@@ -194,7 +194,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     private function getConsumers(array $config): Collection
     {
-        return self::getConsumersEnum()::items()->filter(function (ConsumerItem $item) use ($config) {
+        return self::getConsumersEnum()::items()->filter(static function (ConsumerItem $item) use ($config) {
             return in_array($item->id, $config);
         });
     }
@@ -231,7 +231,7 @@ class ServiceProvider extends LaravelServiceProvider
     private function registerPublishers()
     {
         // Get "tagged" like Publisher
-        $this->app->singleton(PublisherInterface::class, function ($application, $arguments) {
+        $this->app->singleton(PublisherInterface::class, static function ($application, $arguments) {
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {
@@ -248,7 +248,7 @@ class ServiceProvider extends LaravelServiceProvider
     private function registerConsumers()
     {
         // Get "tagged" like Consumers
-        $this->app->singleton(ConsumerInterface::class, function ($application, $arguments) {
+        $this->app->singleton(ConsumerInterface::class, static function ($application, $arguments) {
             /** @var Container $container */
             $container = $application->make(Container::class);
             if (empty($arguments)) {

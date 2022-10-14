@@ -4,6 +4,7 @@ namespace SMSkin\ServiceBus\Controllers;
 
 use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
+use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use SMSkin\ServiceBus\Events\EPackageSubmitted;
 use SMSkin\ServiceBus\Requests\AsyncPublishRequest;
 use SMSkin\ServiceBus\Support\NeedleProject\LaravelRabbitMq\PublisherInterface;
@@ -14,18 +15,20 @@ class CAsyncPublish extends BaseController
 {
     protected AsyncPublishRequest|BaseRequest|null $request;
 
-    protected ?string $requestClass = AsyncPublishRequest::class;
+    protected string|null $requestClass = AsyncPublishRequest::class;
 
     /**
      * @return $this
      * @throws AMQPHeartbeatMissedException
      * @throws AMQPChannelClosedException
+     * @throws AMQPProtocolChannelException
      */
     public function execute(): static
     {
         $this->getPublisher()->publish(
             json_encode($this->request->getPackage()->toArray()),
-            $this->request->getRoutingKey()
+            $this->request->getRoutingKey(),
+            $this->request->getProperties()
         );
         $this->registerSubmittedEvent();
         return $this;

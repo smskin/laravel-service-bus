@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
+use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use SMSkin\LaravelSupport\BaseJob;
 use SMSkin\ServiceBus\Enums\Models\PublisherItem;
 use SMSkin\ServiceBus\Packages\BasePackage;
@@ -21,6 +22,9 @@ class SubmitExceptionPackageToRabbitMQ extends BaseJob implements ShouldQueue
         parent::__construct();
     }
 
+    /**
+     * @throws AMQPProtocolChannelException
+     */
     public function handle(): void
     {
         try {

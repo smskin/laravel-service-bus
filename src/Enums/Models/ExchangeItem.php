@@ -10,31 +10,19 @@ class ExchangeItem extends EnumItem
     public string $rabbitMqName;
     public ExchangeItemAttributes $attributes;
 
-    /**
-     * @param string $rabbitMqName
-     * @return ExchangeItem
-     */
-    public function setRabbitMqName(string $rabbitMqName): ExchangeItem
+    public function setRabbitMqName(string $rabbitMqName): self
     {
         $this->rabbitMqName = $rabbitMqName;
         return $this;
     }
 
-    /**
-     * @param ExchangeItemAttributes $attributes
-     * @return ExchangeItem
-     */
-    public function setAttributes(ExchangeItemAttributes $attributes): ExchangeItem
+    public function setAttributes(ExchangeItemAttributes $attributes): self
     {
         $this->attributes = $attributes;
         return $this;
     }
 
-    /**
-     * @param string $connection
-     * @return ExchangeItem
-     */
-    public function setConnection(string $connection): ExchangeItem
+    public function setConnection(string $connection): self
     {
         $this->connection = $connection;
         return $this;

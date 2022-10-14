@@ -10,31 +10,19 @@ class QueueItem extends EnumItem
     public string $rabbitMqName;
     public QueueItemAttributes $attributes;
 
-    /**
-     * @param string $rabbitMqName
-     * @return QueueItem
-     */
-    public function setRabbitMqName(string $rabbitMqName): QueueItem
+    public function setRabbitMqName(string $rabbitMqName): self
     {
         $this->rabbitMqName = $rabbitMqName;
         return $this;
     }
 
-    /**
-     * @param string $connection
-     * @return QueueItem
-     */
-    public function setConnection(string $connection): QueueItem
+    public function setConnection(string $connection): self
     {
         $this->connection = $connection;
         return $this;
     }
 
-    /**
-     * @param QueueItemAttributes $attributes
-     * @return QueueItem
-     */
-    public function setAttributes(QueueItemAttributes $attributes): QueueItem
+    public function setAttributes(QueueItemAttributes $attributes): self
     {
         $this->attributes = $attributes;
         return $this;

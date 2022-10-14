@@ -36,9 +36,6 @@ class WorkerProcess
 
     /**
      * Start the process.
-     *
-     * @param Closure $callback
-     * @return static
      */
     public function start(Closure $callback): static
     {
@@ -57,7 +54,7 @@ class WorkerProcess
      * @return void
      * @throws ExceptionInterface
      */
-    public function pause()
+    public function pause(): void
     {
         $this->sendSignal(SIGUSR2);
     }
@@ -68,7 +65,7 @@ class WorkerProcess
      * @return void
      * @throws ExceptionInterface
      */
-    public function continue()
+    public function continue(): void
     {
         $this->sendSignal(SIGCONT);
     }
@@ -78,7 +75,7 @@ class WorkerProcess
      *
      * @return void
      */
-    public function monitor()
+    public function monitor(): void
     {
         if ($this->process->isRunning() || $this->coolingDown()) {
             return;
@@ -92,7 +89,7 @@ class WorkerProcess
      *
      * @return void
      */
-    protected function restart()
+    protected function restart(): void
     {
         if ($this->process->isStarted()) {
             event(new WorkerProcessRestarting($this));
@@ -107,7 +104,7 @@ class WorkerProcess
      * @return void
      * @throws ExceptionInterface
      */
-    public function terminate()
+    public function terminate(): void
     {
         $this->sendSignal(SIGTERM);
     }
@@ -117,7 +114,7 @@ class WorkerProcess
      *
      * @return void
      */
-    public function stop()
+    public function stop(): void
     {
         if ($this->process->isRunning()) {
             $this->process->stop();
@@ -127,11 +124,9 @@ class WorkerProcess
     /**
      * Send a POSIX signal to the process.
      *
-     * @param int $signal
-     * @return void
      * @throws ExceptionInterface
      */
-    protected function sendSignal(int $signal)
+    protected function sendSignal(int $signal): void
     {
         try {
             $this->process->signal($signal);
@@ -147,7 +142,7 @@ class WorkerProcess
      *
      * @return void
      */
-    protected function coolDown()
+    protected function coolDown(): void
     {
         if ($this->coolingDown()) {
             return;
@@ -175,9 +170,6 @@ class WorkerProcess
 
     /**
      * Set the output handler.
-     *
-     * @param Closure $callback
-     * @return $this
      */
     public function handleOutputUsing(Closure $callback): static
     {
@@ -188,10 +180,6 @@ class WorkerProcess
 
     /**
      * Pass on method calls to the underlying process.
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
      */
     public function __call(string $method, array $parameters)
     {

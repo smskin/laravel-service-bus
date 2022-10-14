@@ -11,8 +11,6 @@ use Throwable;
 class ConsumerController extends Controller
 {
     /**
-     * @param ConsumeRequest $request
-     * @return Response
      * @throws PackageConsumerNotExists
      * @throws Throwable
      */
@@ -24,7 +22,7 @@ class ConsumerController extends Controller
             )
         );
 
-        if (is_null($response)) {
+        if ($response === null) {
             return response()->noContent();
         }
         return response()->json([

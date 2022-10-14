@@ -63,8 +63,6 @@ class SupervisorCommand extends BaseCommand implements SignalableCommandInterfac
     /**
      * Handle an incoming signal.
      *
-     * @param int $signal
-     * @return void
      * @throws ExceptionInterface
      */
     public function handleSignal(int $signal): void

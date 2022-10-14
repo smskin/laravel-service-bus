@@ -23,7 +23,7 @@ class CSyncPublish extends BaseController
 
     protected SyncPublishRequest|BaseRequest|null $request;
 
-    protected ?string $requestClass = SyncPublishRequest::class;
+    protected string|null $requestClass = SyncPublishRequest::class;
 
     /**
      * @return $this
@@ -39,7 +39,6 @@ class CSyncPublish extends BaseController
             $json = json_decode($response->getBody()->getContents(), true);
             $package = (new PackageDecoder)->decode($json['package']);
             $this->result = $package;
-            return $this;
         }
 
         return $this;
@@ -48,7 +47,7 @@ class CSyncPublish extends BaseController
     /**
      * @return ?BasePackage
      */
-    public function getResult(): ?BasePackage
+    public function getResult(): BasePackage|null
     {
         return parent::getResult();
     }

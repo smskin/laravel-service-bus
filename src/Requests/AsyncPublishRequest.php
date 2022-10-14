@@ -13,58 +13,49 @@ class AsyncPublishRequest extends BaseRequest
     protected string $publisher;
     protected BasePackage $package;
     protected string $routingKey;
+    protected array $properties = [];
 
-    /**
-     * @param BasePackage $package
-     * @return AsyncPublishRequest
-     */
-    public function setPackage(BasePackage $package): AsyncPublishRequest
+    public function setPackage(BasePackage $package): self
     {
         $this->package = $package;
         return $this;
     }
 
-    /**
-     * @param string $publisher
-     * @return AsyncPublishRequest
-     */
-    public function setPublisher(string $publisher): AsyncPublishRequest
+    public function setPublisher(string $publisher): self
     {
         $this->publisher = $publisher;
         return $this;
     }
 
-    /**
-     * @param string $routingKey
-     * @return AsyncPublishRequest
-     */
-    public function setRoutingKey(string $routingKey): AsyncPublishRequest
+    public function setRoutingKey(string $routingKey): self
     {
         $this->routingKey = $routingKey;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPublisher(): string
     {
         return $this->publisher;
     }
 
-    /**
-     * @return BasePackage
-     */
     public function getPackage(): BasePackage
     {
         return $this->package;
     }
 
-    /**
-     * @return string
-     */
     public function getRoutingKey(): string
     {
         return $this->routingKey;
+    }
+
+    public function setProperties(array $properties): self
+    {
+        $this->properties = $properties;
+        return $this;
+    }
+
+    public function getProperties(): array
+    {
+        return $this->properties;
     }
 }

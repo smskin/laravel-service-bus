@@ -6,14 +6,14 @@ use SMSkin\ServiceBus\Contracts\Arrayable;
 
 class Host implements Arrayable
 {
-    public ?string $machineName = null;
-    public ?string $processName = null;
-    public ?int $processId = null;
-    public ?string $assembly = null;
-    public ?string $assemblyVersion = null;
-    public ?string $frameworkVersion = null;
-    public ?string $massTransitVersion = null;
-    public ?string $operatingSystemVersion = null;
+    public string|null $machineName = null;
+    public string|null $processName = null;
+    public int|null $processId = null;
+    public string|null $assembly = null;
+    public string|null $assemblyVersion = null;
+    public string|null $frameworkVersion = null;
+    public string|null $massTransitVersion = null;
+    public string|null $operatingSystemVersion = null;
 
     public function toArray(): array
     {

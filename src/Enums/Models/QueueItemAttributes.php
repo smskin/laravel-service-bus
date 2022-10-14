@@ -19,6 +19,8 @@ class QueueItemAttributes implements Arrayable
      */
     public Collection $bind;
 
+    public array $arguments = [];
+
     public function toArray(): array
     {
         return [
@@ -28,77 +30,56 @@ class QueueItemAttributes implements Arrayable
             'internal' => $this->internal,
             'nowait' => $this->nowait,
             'exclusive' => $this->exclusive,
-            'bind' => $this->bind->toArray()
+            'bind' => $this->bind->toArray(),
+            'arguments' => $this->arguments
         ];
     }
 
-    /**
-     * @param bool $passive
-     * @return QueueItemAttributes
-     */
-    public function setPassive(bool $passive): QueueItemAttributes
+    public function setPassive(bool $passive): self
     {
         $this->passive = $passive;
         return $this;
     }
 
-    /**
-     * @param bool $durable
-     * @return QueueItemAttributes
-     */
-    public function setDurable(bool $durable): QueueItemAttributes
+    public function setDurable(bool $durable): self
     {
         $this->durable = $durable;
         return $this;
     }
 
-    /**
-     * @param bool $autoDelete
-     * @return QueueItemAttributes
-     */
-    public function setAutoDelete(bool $autoDelete): QueueItemAttributes
+    public function setAutoDelete(bool $autoDelete): self
     {
         $this->autoDelete = $autoDelete;
         return $this;
     }
 
-    /**
-     * @param bool $internal
-     * @return QueueItemAttributes
-     */
-    public function setInternal(bool $internal): QueueItemAttributes
+    public function setInternal(bool $internal): self
     {
         $this->internal = $internal;
         return $this;
     }
 
-    /**
-     * @param bool $nowait
-     * @return QueueItemAttributes
-     */
-    public function setNowait(bool $nowait): QueueItemAttributes
+    public function setNowait(bool $nowait): self
     {
         $this->nowait = $nowait;
         return $this;
     }
 
-    /**
-     * @param bool $exclusive
-     * @return QueueItemAttributes
-     */
-    public function setExclusive(bool $exclusive): QueueItemAttributes
+    public function setExclusive(bool $exclusive): self
     {
         $this->exclusive = $exclusive;
         return $this;
     }
 
-    /**
-     * @param Collection<QueueItemBindAttribute> $bind
-     * @return QueueItemAttributes
-     */
-    public function setBind(Collection $bind): QueueItemAttributes
+    public function setBind(Collection $bind): self
     {
         $this->bind = $bind;
+        return $this;
+    }
+
+    public function setArguments(array $arguments): self
+    {
+        $this->arguments = $arguments;
         return $this;
     }
 }

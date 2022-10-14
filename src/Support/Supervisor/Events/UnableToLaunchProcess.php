@@ -13,8 +13,6 @@ class UnableToLaunchProcess
 
     /**
      * Create a new event instance.
-     *
-     * @param WorkerProcess $process
      */
     public function __construct(WorkerProcess $process)
     {

@@ -19,7 +19,7 @@ class TestSyncMessageProcessor extends BaseProcessor
         parent::__construct($package);
     }
 
-    public function execute(): ?BasePackage
+    public function execute(): BasePackage|null
     {
         Log::debug('Received sync package', $this->package->toArray());
 

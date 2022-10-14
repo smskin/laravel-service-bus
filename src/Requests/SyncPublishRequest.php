@@ -13,37 +13,23 @@ class SyncPublishRequest extends BaseRequest
     protected string $host;
     protected BasePackage $package;
 
-    /**
-     * @param string $host
-     * @return SyncPublishRequest
-     */
-    public function setHost(string $host): SyncPublishRequest
+    public function setHost(string $host): self
     {
         $this->host = $host;
         return $this;
     }
 
-    /**
-     * @param BasePackage $package
-     * @return SyncPublishRequest
-     */
-    public function setPackage(BasePackage $package): SyncPublishRequest
+    public function setPackage(BasePackage $package): self
     {
         $this->package = $package;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHost(): string
     {
         return $this->host;
     }
 
-    /**
-     * @return BasePackage
-     */
     public function getPackage(): BasePackage
     {
         return $this->package;

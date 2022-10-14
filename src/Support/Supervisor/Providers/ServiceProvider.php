@@ -12,7 +12,7 @@ class ServiceProvider extends LaravelServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->commands([
             SupervisorCommand::class

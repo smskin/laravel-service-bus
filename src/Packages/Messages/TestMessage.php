@@ -22,21 +22,13 @@ class TestMessage extends BaseMessage
         return $this;
     }
 
-    /**
-     * @param string $string1
-     * @return TestMessage
-     */
-    public function setString1(string $string1): TestMessage
+    public function setString1(string $string1): self
     {
         $this->string1 = $string1;
         return $this;
     }
 
-    /**
-     * @param string $string2
-     * @return TestMessage
-     */
-    public function setString2(string $string2): TestMessage
+    public function setString2(string $string2): self
     {
         $this->string2 = $string2;
         return $this;

@@ -13,14 +13,14 @@ class Consumers extends BaseEnum
 
     public const TEST = 'TEST';
 
-    private static ?Collection $items = null;
+    private static Collection|null $items = null;
 
     /**
      * @return Collection<ConsumerItem>
      */
     public static function items(): Collection
     {
-        if (!is_null(static::$items)) {
+        if (static::$items !== null) {
             return static::$items;
         }
 

@@ -14,14 +14,14 @@ class Exchanges extends BaseEnum
 
     public const DEFAULT = 'DEFAULT';
 
-    private static ?Collection $items = null;
+    private static Collection|null $items = null;
 
     /**
      * @return Collection<ExchangeItem>
      */
     public static function items(): Collection
     {
-        if (!is_null(static::$items)) {
+        if (static::$items !== null) {
             return static::$items;
         }
 
@@ -54,7 +54,7 @@ class Exchanges extends BaseEnum
 
     public static function getByRabbitMqName(string $name): ExchangeItem
     {
-        return static::items()->filter(function (ExchangeItem $item) use ($name) {
+        return static::items()->filter(static function (ExchangeItem $item) use ($name) {
             return $item->rabbitMqName === $name;
         })->firstOrFail();
     }

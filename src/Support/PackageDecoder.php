@@ -13,8 +13,6 @@ class PackageDecoder
     use ClassFromConfig;
 
     /**
-     * @param array $data
-     * @return BasePackage
      * @throws PackageConsumerNotExists
      */
     public function decode(array $data): BasePackage
@@ -37,10 +35,10 @@ class PackageDecoder
         return (new IncomingPackage)->fromArray($data);
     }
 
-    private function getPackageEnumItemByMessageType(string $messageType): ?PackageItem
+    private function getPackageEnumItemByMessageType(string $messageType): PackageItem|null
     {
         $packages = self::getPackagesEnum()::items();
-        return $packages->filter(function (PackageItem $package) use ($messageType) {
+        return $packages->filter(static function (PackageItem $package) use ($messageType) {
             return $package->id === $messageType;
         })->first();
     }
