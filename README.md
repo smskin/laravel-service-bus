@@ -132,6 +132,8 @@ Register queues in Queues enum  (SMSkin\ServiceBus\Enums\Queues - can be overrid
     - bind - array of binds
         - exchange - id of exchange  (SMSkin\ServiceBus\Enums\Exchanges)
         - routing_key
+    - arguments
+      - x-max-priority - maximal message priority
 
 #### Publishers
 
@@ -343,5 +345,10 @@ Example of submitting asynchronous command
                                 ->setName('Sergey')
                         )
                 )
+                ->setProperties([
+                    'priority' => 0
+                ])
         );
 ```
+
+- priority - priority of the message
