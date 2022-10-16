@@ -32,9 +32,8 @@ class ServiceBus extends BaseModule
      * @throws Exceptions\ApiTokenNotDefined
      * @throws Exceptions\PackageConsumerNotExists
      * @throws GuzzleException
-     * @noinspection PhpUnusedPrivateMethodInspection
      */
-    private function syncPublish(SyncPublishRequest $request): BasePackage|null
+    public function syncPublish(SyncPublishRequest $request): BasePackage|null
     {
         return (new CSyncPublish($request))->execute()->getResult();
     }
