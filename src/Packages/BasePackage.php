@@ -57,7 +57,7 @@ abstract class BasePackage implements Arrayable
             'sourceAddress' => $this->sourceAddress,
             'destinationAddress' => $this->destinationAddress,
             'messageType' => [
-                'urn:message:' . $this->messageType ?? static::class
+                'urn:message:' . $this->getMessageType() ?? static::class
             ],
             'message' => $this->message->toArray(),
             'sentTime' => $this->sentTime->toISOString(),
@@ -130,7 +130,7 @@ abstract class BasePackage implements Arrayable
         return $this->message;
     }
 
-    public function getMessageType(): string
+    public function getMessageType(): string|null
     {
         return $this->messageType;
     }

@@ -38,8 +38,17 @@ class PackageDecoder
     private function getPackageEnumItemByMessageType(string $messageType): PackageItem|null
     {
         $packages = self::getPackagesEnum()::items();
-        return $packages->filter(static function (PackageItem $package) use ($messageType) {
-            return $package->id === $messageType;
+        return $packages->filter(function (PackageItem $package) use ($messageType) {
+            if ($package->id === $messageType) {
+                return true;
+            }
+
+            $context = $this->getPackageContext($package);
+            if ($context->getMessageType()) {
+                return $context->getMessageType() === $messageType;
+            }
+
+            return false;
         })->first();
     }
 }
