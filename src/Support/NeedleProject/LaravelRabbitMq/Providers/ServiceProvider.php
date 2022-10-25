@@ -140,23 +140,32 @@ class ServiceProvider extends LaravelServiceProvider
     private function getQueuesConfig(Collection $queues): array
     {
         $data = [];
-        foreach ($queues as $queue) {
-            $attributes = $queue->attributes->toArray();
-            $errorAttributes = $attributes;
-            $errorAttributes['bind'][0]['exchange'] = $errorAttributes['bind'][0]['exchange'] . '_error';
-
-            $data = array_merge($data, [
-                $queue->id => [
-                    'connection' => $queue->connection,
-                    'name' => $queue->rabbitMqName,
-                    'attributes' => $attributes
-                ],
-                $queue->id . '_error' => [
-                    'connection' => $queue->connection,
-                    'name' => $queue->rabbitMqName . '_error',
-                    'attributes' => $errorAttributes
+        foreach ($queues as $queue)
+        {
+            $data[$queue->id] = [
+                'connection' => $queue->connection,
+                'name' => $queue->rabbitMqName,
+                'attributes' => $queue->attributes->toArray()
+            ];
+            $data[$queue->id.'_error'] = [
+                'connection' => $queue->connection,
+                'name' => $queue->rabbitMqName . '_error',
+                'attributes' => [
+                    'passive' => false,
+                    'durable'=>true,
+                    'auto_delete'=>false,
+                    'internal'=>false,
+                    'nowait'=>false,
+                    'exclusive'=>false,
+                    'bind'=>[
+                        [
+                            'exchange'=> $data[$queue->id]['attributes']['bind'][0]['exchange'].'_error',
+                            'routing_key' => '*'
+                        ]
+                    ],
+                    'arguments'=>[]
                 ]
-            ]);
+            ];
         }
         return $data;
     }
