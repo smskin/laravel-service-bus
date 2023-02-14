@@ -29,7 +29,7 @@ class SubmitExceptionPackageToRabbitMQ extends BaseJob implements ShouldQueue
     {
         try {
             $this->getPublisher($this->publisher->id . '_error')->publish(
-                json_encode($this->package->toArray()),
+                json_encode($this->package->toArray(), JSON_PRETTY_PRINT),
                 '*'
             );
         } catch (AMQPHeartbeatMissedException|AMQPChannelClosedException $exception) {

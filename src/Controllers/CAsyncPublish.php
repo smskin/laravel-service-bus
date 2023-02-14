@@ -26,7 +26,7 @@ class CAsyncPublish extends BaseController
     public function execute(): static
     {
         $this->getPublisher()->publish(
-            json_encode($this->request->getPackage()->toArray()),
+            json_encode($this->request->getPackage()->toArray(), JSON_PRETTY_PRINT),
             $this->request->getRoutingKey(),
             $this->request->getProperties()
         );

@@ -18,7 +18,7 @@ class ConsumerController extends Controller
     {
         $response = (new ServiceBus())->consume(
             (new \SMSkin\ServiceBus\Requests\ConsumeRequest)->setJson(
-                json_encode($request->input('package'))
+                json_encode($request->input('package'), JSON_PRETTY_PRINT)
             )
         );
 
